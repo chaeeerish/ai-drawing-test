@@ -28,7 +28,7 @@ sleep 10
 # 새로운 컨테이너가 제대로 떴는지 확인
 if docker inspect ${DOCKER_APP_NAME}-${AFTER_COMPOSE_COLOR}-backend-1 >/dev/null 2>&1 && docker inspect ${DOCKER_APP_NAME}-${AFTER_COMPOSE_COLOR}-frontend-1 >/dev/null 2>&1; then
     # nginx.config를 컨테이너에 맞게 변경해주고 reload 한다
-    sudo cp /etc/nginx/nginx.${AFTER_COMPOSE_COLOR}.conf /etc/nginx/nginx.conf
+    sudo -S cp /etc/nginx/nginx.${AFTER_COMPOSE_COLOR}.conf /etc/nginx/nginx.conf
     nginx -s reload
 
     # 이전 컨테이너 종료
