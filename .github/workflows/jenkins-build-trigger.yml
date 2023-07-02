@@ -19,4 +19,4 @@ jobs:
         url: ${{ secrets.webhook-url }}
         user: "chaeeerish"
         token: ${{ secrets.jenkins-api-token }}
-        job: "jenkins-ai-drawing-test"
+        job: "docker-image-pull"
