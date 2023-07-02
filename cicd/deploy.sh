@@ -45,3 +45,6 @@ if docker inspect ${DOCKER_APP_NAME}-${AFTER_COMPOSE_COLOR}-backend-1 >/dev/null
 
     echo "$BEFORE_COMPOSE_COLOR down"
 fi
+
+# 초기화
+docker image prune
