@@ -7,10 +7,15 @@ from flask_cors import CORS
 from main.config.db_connect import db
 from main.controller.api.draw_controller import bp as drawbp
 from main.controller.api.main_controller import bp as mainbp
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # .env 파일 로드
-load_dotenv('prod.env')
+# load_dotenv()
+
+# print("******************")
+# print(os.environ.get('AWS_ACCESS_KEY_ID'))
+# print(os.environ.get('AWS_SECRET_ACCESS_KEY'))
+# print("******************")
 
 app = Flask(__name__)
 CORS(app, resources={r"*": {"origins": "*"}})

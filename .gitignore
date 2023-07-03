@@ -7,3 +7,7 @@ backend/app/ml_models/detection/saved_model/variables/*.index
 backend/app/ml_models/detection/saved_model2/variables/variables.data-00000-of-00001
 backend/app/ml_models/detection/saved_model2/variables/*.index
 backend/app/ml_models/detection/saved_model2/*.pb
+
+backend/app/main/config/print_file_list.py
+
+cicd/docker

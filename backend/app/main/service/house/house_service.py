@@ -60,7 +60,7 @@ def detection_house(binaryimg):
     result = {key:value.numpy() for key,value in result.items()}
     
     #임계값 지정. 50% 이상일 때만 바운딩박스 그림
-    SCORE_THRESHOLD = 0.5
+    SCORE_THRESHOLD = 0.7
     OBJECT_DEFAULT_COUNT = 25 #클래스 개수
 
     #클래스 매칭
