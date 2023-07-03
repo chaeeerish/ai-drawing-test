@@ -3,7 +3,7 @@ name: main workflow
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   call-workflow-frontend-docker:
