@@ -14,12 +14,12 @@ GREEN_FRONTEND_CONTAINER="${DOCKER_APP_NAME}-green-frontend-1"
 # 컨테이너 스위칭
 if ! docker ps -f name=${BLUE_BACKEND_CONTAINER} -f name=${BLUE_FRONTEND_CONTAINER} --format "{{.Names}}" | grep -qE "${BLUE_BACKEND_CONTAINER}|${BLUE_FRONTEND_CONTAINER}"; then
     echo "blue up"
-    docker-compose -p ${DOCKER_APP_NAME}-blue -f /home/ubuntu/docker-compose.blue.yaml up -d
+    docker-compose -p ${DOCKER_APP_NAME}-blue -f /var/lib/jenkins/workspace/execute-deploy-shell/docker-compose.blue.yaml up -d
     BEFORE_COMPOSE_COLOR="green"
     AFTER_COMPOSE_COLOR="blue"
 else
     echo "green up"
-    docker-compose -p ${DOCKER_APP_NAME}-green -f /home/ubuntu/docker-compose.green.yaml up -d
+    docker-compose -p ${DOCKER_APP_NAME}-green -f /var/lib/jenkins/workspace/execute-deploy-shell/docker-compose.green.yaml up -d
     BEFORE_COMPOSE_COLOR="blue"
     AFTER_COMPOSE_COLOR="green"
 fi
@@ -45,6 +45,3 @@ if docker inspect ${DOCKER_APP_NAME}-${AFTER_COMPOSE_COLOR}-backend-1 >/dev/null
 
     echo "$BEFORE_COMPOSE_COLOR down"
 fi
-
-# 초기화
-docker image prune
