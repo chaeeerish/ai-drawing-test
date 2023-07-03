@@ -103,6 +103,7 @@
       <p class="result-contact">yoonyoung.lee1218@gmail.com</p>
       <p class="result-copyright">©2023 마음스케치 | All rights reserved.</p>
     </footer>
+
   </div>
 </template>
 
@@ -159,7 +160,7 @@ export default {
           title: "마음스케치",
           description: "#AI심리검사 #그림심리검사",
           imageUrl:
-            "http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png",
+            "https://ifh.cc/g/O8dgTT.jpg",
           link: {
             // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
             mobileWebUrl: "https://developers.kakao.com",
@@ -167,9 +168,9 @@ export default {
           },
         },
         social: {
-          likeCount: 123,
-          commentCount: 456,
-          sharedCount: 789,
+          likeCount: 178,
+          commentCount: 45,
+          sharedCount: 103,
         },
         buttons: [
           {
@@ -183,7 +184,7 @@ export default {
       });
     },
     urlCopy() {
-      this.$copyText("http://192.168.219.103:8080/").then(() => {
+      this.$copyText("http://ai-drawing-test.com/").then(() => {
         alert("클립보드에 성공적으로 복사되었습니다.");
       });
     },
@@ -196,6 +197,11 @@ export default {
     this.character_id = this.newData.character;
   },
   mounted() {
+    const script = document.createElement("script");
+    script.src = "//t1.daumcdn.net/kas/static/ba.min.js";
+    script.async = true;
+    document.head.appendChild(script);
+
     console.log("Component mounted.");
     const ctx = document.getElementById("myChart");
     const myChart = new Chart(ctx, {
