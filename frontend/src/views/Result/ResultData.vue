@@ -77,6 +77,12 @@
       </div>
     </transition>
 
+    <!-- 광고 -->
+    <div style="padding-top : 10px">
+      <p>이곳에 광고가 표시됩니다.</p>
+      <AdsenseComponent></AdsenseComponent>
+    </div>
+
     <br />
     <footer class="footer">
       <div class="share-btns">
@@ -109,10 +115,13 @@
 
 <script>
 import Chart from "chart.js/auto";
+import AdsenseComponent from "@/AdsenseComponent.vue";
 export default {
   name: "ResultData",
   props: ["newData"],
-  components: {},
+  components: {
+    AdsenseComponent,
+  },
   data() {
     return {
       character_name: [
