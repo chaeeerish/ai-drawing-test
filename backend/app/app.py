@@ -9,7 +9,6 @@ from main.controller.api.draw_controller import bp as drawbp
 from main.controller.api.main_controller import bp as mainbp
 # from dotenv import load_dotenv
 
-# .env 파일 로드
 # load_dotenv()
 
 # print("******************")

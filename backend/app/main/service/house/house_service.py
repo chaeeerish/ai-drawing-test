@@ -70,6 +70,7 @@ def detection_house(binaryimg):
  
     ######추가
     roof_width_list = [] 
+    roof_height_list = []
     
     wall_list = []
     wall_width_list=[]
@@ -101,7 +102,9 @@ def detection_house(binaryimg):
         
         if labels_to_names[class_id] == '1001': # 지붕
           roof_width = right - left
+          roof_height = bottom - top
           roof_width_list.append(roof_width)
+          roof_height_list.append(roof_height)
 
         elif labels_to_names[class_id] == '1002': # 벽
           wall_left = left
@@ -137,11 +140,11 @@ def detection_house(binaryimg):
     if detection_list.count('1001') == 0: #지붕 없다
        roof_result_list.append(0)
     elif detection_list.count('1001') == 1 and detection_list.count('1002') == 1: #지붕 벽 각각 하나
-       if roof_size(roof_width, wall_width) == 1: # 지붕이 있는데 크다.
+       if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1: # 지붕이 있는데 크다.
           roof_result_list.append(1)
     # 지붕이 2개 이상이고 벽이 1개일 때 
     elif (detection_list.count('1001') >= 2 and detection_list.count('1002') >= 1): 
-        if roof_size(max(roof_width_list), max(wall_width_list)) == 1:
+        if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1:
            roof_result_list.append(1)
 
     # 1003: 창문 Window
@@ -180,7 +183,7 @@ def detection_house(binaryimg):
          door_result_list.append(2) # 매우 큰
       elif door_max_area > wall_max_area * 0.4:
          door_result_list.append(1) # 큰 
-      elif door_max_area < wall_max_area * 0.2:
+      elif door_max_area < wall_max_area * 0.12:
          door_result_list.append(4) # 매우 작은
       elif max(door_height_list) < max(wall_height_list) * 0.4:
          door_result_list.append(3)
@@ -208,10 +211,12 @@ def detection_house(binaryimg):
     }
 
 #지붕이 큰가? 함수
-def roof_size(roof_width, wall_width):
+def roof_size(roof_width, wall_width, roof_height, wall_height):
   roof_size = 0
-  if int(roof_width) > int(wall_width)*3:
+  if int(roof_width) > int(wall_width)*1.9:
     roof_size = 1 #크다
+  if int(roof_height) > int(wall_height)*1.3:
+    roof_size = 1
   return roof_size
 
 #문이 큰가? 함수
@@ -238,7 +243,7 @@ def door_edge(door_width, wall_width, door_left, door_right, wall_left, wall_rig
       door_edge = 1 #왼쪽 가장자리로 치우친
   elif door_left >= wall_left+(wall_width / 2):
     if door_right >= wall_right - (wall_width/4):
-      door_edght = 2 #오른쪽 가장자리로 치우친
+      door_edge = 2 #오른쪽 가장자리로 치우친
   return door_edge
 
 #창문 크기 함수
