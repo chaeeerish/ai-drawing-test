@@ -151,7 +151,27 @@ export default {
       showPaint: true,
       showLoading: false,
       mode: null,
-      newData: "",
+      newData: {
+        name: "geon",
+        tree_image: "1",
+        house_image: "2",
+        tree_result: {
+          "나무 유형": { value: "aaa" },
+          "나무 뿌리": { value: "bbb" },
+          "나무 가지": { value: "ccc" },
+          나뭇잎: { value: "ddd" },
+          "나무 줄기": { value: "eee" },
+          "나무 크기": { value: "fff" },
+        },
+        house_result: {
+          "집 유형": { "home이 많음": "1111", "home이 적음": null },
+          "집 지붕": { "문이 많음": null, "문이 적음": "ccc" },
+          "집 문": { "문이 많음": null, "문이 적음": "ccc" },
+          "집 창문": { "문이 많음": null, "문이 적음": "ccc" },
+        },
+        character: 2,
+        graph: [0.9, 0.9, 0.9, 0.9, 0.9],
+      },
     };
   },
   methods: {

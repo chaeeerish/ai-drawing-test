@@ -1,26 +1,32 @@
 <template>
   <div class="results-data">
-    <h1 class="userName">&lt;{{ username }}님의 결과&gt;</h1>
+    <img src="../../assets/images/paintSpring.png" class="paintSpring" />
+    <div class="results-main-screen">
+      <h1 class="userName">&lt;{{ username }}님의 결과&gt;</h1>
+      <div class="characterName">
+        {{ character_name[character_id] }}
+      </div>
+      <div>
+        <img
+          class="characterImage"
+          :src="getImageUrl(character_id)"
+          alt="Character Image"
+        />
+      </div>
 
-    <div>
-      <img
-        class="characterImage"
-        :src="getImageUrl(character_id)"
-        alt="Character Image"
-      />
-    </div>
-    <div class="characterName">
-      {{ character_name[character_id - 1] }}
-    </div>
-    <div>
-      <canvas id="myChart" :width="15" :height="15"></canvas>
+      <!-- <img class="paint-spring" src="../../assets/images/paintSpring.png" /> -->
+      <button class="showDetailBtn" @click="showDetail">상세보기</button>
     </div>
 
-    <!-- <img class="paint-spring" src="../../assets/images/paintSpring.png" /> -->
-    <button class="showDetailBtn" @click="showDetail">상세보기</button>
-    <transition name="fade">
+    <transition name="fade" @after-enter="createChart">
       <div v-if="showResults" class="details" :class="{ open: showDetails }">
+        <div>
+          <canvas id="myChart" :width="14" :height="14"></canvas>
+        </div>
         <div class="first-result">
+          <div>
+            <canvas id="myChart" :width="14" :height="14"></canvas>
+          </div>
           <h1 class="first-result-title">{{ username }}님의 나무 그림</h1>
           <img width="200" height="300" :src="newData.tree_image" alt="image" />
           <div class="result-texts">
@@ -42,6 +48,10 @@
               </template>
             </div>
           </div>
+        </div>
+        <!-- 광고 -->
+        <div style="padding-top: 10px">
+          <iframe src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=680&height=140&tsource=" width="390" height="140" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
         </div>
         <div class="second-result">
           <h1 class="first-result-title">{{ username }}님의 집 그림</h1>
@@ -78,10 +88,17 @@
     </transition>
 
     <!-- 광고 -->
-    <div style="padding-top : 10px">
+    <div style="padding-top: 10px">
+      <iframe src="https://ads-partners.coupang.com/widgets.html?id=679309&template=carousel&trackingCode=AF0334851&subId=&width=390&height=140&tsource=" width="390" height="140" frameborder="0" scrolling="no" referrerpolicy="unsafe-url"></iframe>
+    </div>
+
+    <!-- 광고 -->
+    <div style="padding-top: 10px">
       <p>이곳에 광고가 표시됩니다.</p>
       <AdsenseComponent></AdsenseComponent>
     </div>
+
+
 
     <br />
     <footer class="footer">
@@ -89,27 +106,29 @@
         <p class="title-text-result">
           <span style="color: #eba090">마음</span>스케치
         </p>
-        <a id="kakaotalk-sharing-btn" href="javascript:;">
-          <img
-            src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-            alt="카카오톡 공유 보내기 버튼"
-            class="kakaotalk-btn"
-            @click="kakaoLink"
-          />
-        </a>
-        <!-- <div class="clipboard-copy">
-          <img
-            class="clipboard-img"
-            @click="urlCopy"
-            src="../../assets/images/sharelink.png"
-          />
-        </div> -->
-        <button class="shareBtn" @click="urlCopy">링크 공유</button>
+        <div>
+          <a id="kakaotalk-sharing-btn" href="javascript:;">
+            <img
+              src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+              alt="카카오톡 공유 보내기 버튼"
+              class="kakaotalk-btn"
+              @click="kakaoLink"
+            />
+          </a>
+          <div class="clipboard-copy">
+            <img
+              class="clipboard-img"
+              @click="urlCopy"
+              src="../../assets/images/sharelink.png"
+            />
+          </div>
+        </div>
+
+        <!-- <button class="shareBtn" @click="urlCopy">링크복사</button> -->
       </div>
       <p class="result-contact">yoonyoung.lee1218@gmail.com</p>
       <p class="result-copyright">©2023 마음스케치 | All rights reserved.</p>
     </footer>
-
   </div>
 </template>
 
@@ -155,6 +174,78 @@ export default {
     };
   },
   methods: {
+    createChart(){
+    const ctx = document.getElementById("myChart");
+    const myChart = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: [
+          "온화함 😚",
+          "자신감 😏",
+          "행복함 😆",
+          "사회성 😎 ",
+          "높은 자존감 😤",
+        ],
+        datasets: [
+          {
+            label: "수치",
+            data: this.graph,
+            backgroundColor: [
+              // "rgba(255, 99, 132, 0.2)",
+              // "rgba(54, 162, 235, 0.2)",
+              // "rgba(255, 206, 86, 0.2)",
+              // "rgba(75, 192, 192, 0.2)",
+              // "rgba(153, 102, 255, 0.2)",
+              "transparent",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              // "rgba(54, 162, 235, 1)",
+              // "rgba(255, 206, 86, 1)",
+              // "rgba(75, 192, 192, 1)",
+              // "rgba(153, 102, 255, 1)",
+            ],
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            top: 10,
+            bottom: 10,
+            left: 10,
+            right: 10,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false, // Hide the legend
+          },
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 1,
+            angleLines: {
+              display: false,
+            },
+            gridLines: {
+              display: false, // Hide the grid lines inside the pentagon
+            },
+            ticks: {
+              display: false,
+            },
+            pointLabels: {
+              fontSize: 18, // Set the font size for the labels
+            },
+          },
+        },
+      },
+    });
+    myChart
+    },
     showDetail() {
       this.showResults = !this.showResults;
     },
@@ -168,8 +259,7 @@ export default {
         content: {
           title: "마음스케치",
           description: "#AI심리검사 #그림심리검사",
-          imageUrl:
-            "https://ifh.cc/g/O8dgTT.jpg",
+          imageUrl: "https://ifh.cc/g/O8dgTT.jpg",
           link: {
             // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
             mobileWebUrl: "https://developers.kakao.com",
@@ -212,63 +302,76 @@ export default {
     document.head.appendChild(script);
 
     console.log("Component mounted.");
-    const ctx = document.getElementById("myChart");
-    const myChart = new Chart(ctx, {
-      type: "radar",
-      data: {
-        labels: ["공격성", "사회불안", "우울", "대인회피", "낮은 자존감"],
-        datasets: [
-          {
-            label: "수치",
-            data: this.graph,
-            backgroundColor: [
-              // "rgba(255, 99, 132, 0.2)",
-              // "rgba(54, 162, 235, 0.2)",
-              // "rgba(255, 206, 86, 0.2)",
-              // "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              // "rgba(54, 162, 235, 1)",
-              // "rgba(255, 206, 86, 1)",
-              // "rgba(75, 192, 192, 1)",
-              // "rgba(153, 102, 255, 1)",
-            ],
-            borderWidth: 2,
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 10,
-          },
-        },
-        plugins: {
-          legend: {
-            display: false, // Hide the legend
-          },
-        },
-        scales: {
-          r: {
-            beginAtZero: true,
-            max: 1,
-            angleLines: {
-              display: false,
-            },
-            ticks: {
-              display: false,
-            },
-          },
-        },
-      },
-    });
-    myChart;
+    // const ctx = document.getElementById("myChart");
+    // const myChart = new Chart(ctx, {
+    //   type: "radar",
+    //   data: {
+    //     labels: [
+    //       "온화함 😚",
+    //       "자신감 😏",
+    //       "행복함 😆",
+    //       "사회성 😎 ",
+    //       "높은 자존감 😤",
+    //     ],
+    //     datasets: [
+    //       {
+    //         label: "수치",
+    //         data: this.graph,
+    //         backgroundColor: [
+    //           // "rgba(255, 99, 132, 0.2)",
+    //           // "rgba(54, 162, 235, 0.2)",
+    //           // "rgba(255, 206, 86, 0.2)",
+    //           // "rgba(75, 192, 192, 0.2)",
+    //           // "rgba(153, 102, 255, 0.2)",
+    //           "transparent",
+    //         ],
+    //         borderColor: [
+    //           "rgba(255, 99, 132, 1)",
+    //           // "rgba(54, 162, 235, 1)",
+    //           // "rgba(255, 206, 86, 1)",
+    //           // "rgba(75, 192, 192, 1)",
+    //           // "rgba(153, 102, 255, 1)",
+    //         ],
+    //         borderWidth: 2,
+    //       },
+    //     ],
+    //   },
+    //   options: {
+    //     maintainAspectRatio: false,
+    //     layout: {
+    //       padding: {
+    //         top: 10,
+    //         bottom: 10,
+    //         left: 10,
+    //         right: 10,
+    //       },
+    //     },
+    //     plugins: {
+    //       legend: {
+    //         display: false, // Hide the legend
+    //       },
+    //     },
+    //     scales: {
+    //       r: {
+    //         beginAtZero: true,
+    //         max: 1,
+    //         angleLines: {
+    //           display: false,
+    //         },
+    //         gridLines: {
+    //           display: false, // Hide the grid lines inside the pentagon
+    //         },
+    //         ticks: {
+    //           display: false,
+    //         },
+    //         pointLabels: {
+    //           fontSize: 18, // Set the font size for the labels
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+    // myChart;
   },
 };
 </script>
@@ -277,10 +380,11 @@ export default {
 /* Styles for phones */
 @media only screen and (max-width: 767px) {
   .results-data {
+    margin-top: 0px;
     display: inline-block;
     font-family: korFont2;
     background-color: #ffffff;
-
+    background-image: "../../assets/images/mainPage.png";
     background-size: cover;
     /* background-repeat: no-repeat; */
     background-position: center center;
@@ -289,14 +393,30 @@ export default {
     width: 100%;
     height: auto !important;
   }
+  .results-main-screen {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("../../assets/images/mainPage.png");
+    height: calc(var(--vh, 1vh) * 100);
+  }
+  .details {
+    background: linear-gradient(180deg, #fbf0ee 0%, #ffffff 100%);
+  }
+  .paintSpring {
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
   .userName {
-    font-size: 20px;
-    margin-top: 10%;
+    font-size: 25px;
+    padding-top: 90px;
     font-family: korFont3;
-    color: #0000008a;
+    color: #424242;
   }
   .first-result {
-    margin-top: 50px;
+    padding-top: 50px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
   }
@@ -320,25 +440,25 @@ export default {
     font-family: korFont2;
     width: 80%;
     display: inline-block;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
   .treeAttributes {
     font-weight: 1000;
     font-size: 22px;
-    margin-bottom: 22px;
+    padding-bottom: 22px;
   }
   .treefeatures {
     font-size: 18px;
-    margin-bottom: 13px;
+    padding-bottom: 13px;
   }
   .treevalues {
     font-size: 15px;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
     line-height: 1.8;
   }
   .share-btn {
     font-family: korFont2;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     font-size: 20px;
     background-color: #fdd5cc;
     color: black;
@@ -352,10 +472,10 @@ export default {
     border-radius: 15px;
   }
   .share-btns {
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 15px;
   }
@@ -367,19 +487,20 @@ export default {
   }
   .clipboard-copy {
     display: inline-block;
+    padding-left: 5px;
   }
   .clipboard-img {
-    width: 25px;
+    width: 30px;
   }
   .characterImage {
-    width: 160px;
+    width: 200px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
+    padding-top: 40px;
   }
   #myChart {
-    width: 180px;
+    width: 160px;
   }
   .showDetailBtn {
     background-color: #424242;
@@ -388,20 +509,21 @@ export default {
     border: none;
     cursor: pointer;
     border-radius: 25px;
-    margin-bottom: 35px;
-    margin-top: 10px;
+    margin-top: 40px;
     font-family: korFont2;
     font-size: 16px;
   }
   .characterName {
     font-size: 19px;
     font-family: korFont2;
-    margin-top: 30px;
-    margin-bottom: 25px;
+    font-weight: 1000;
+    padding-top: 30px;
+    padding-bottom: 0px;
     border-radius: 10px;
     display: inline-block;
     max-width: 340px;
     word-wrap: break-word;
+    color: #2f2f2f;
   }
   .footer {
     background-color: #424242;
@@ -409,15 +531,17 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    color: rgb(255, 255, 255);
-    text-align: center;
+    color: #ffffff;
+    text-align: left;
+    align-items: left;
     padding: 10px;
     font-size: 14px;
     font-family: korFont2;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
   .title-text-result {
     font-family: korFont1;
-    font-size: 25px;
+    font-size: 29px;
   }
   .result-contact {
     font-family: korFont2;
@@ -430,10 +554,10 @@ export default {
     margin-bottom: 100px;
   }
   .shareBtn {
-    background-color: transparent;
+    background-color: #e4e4e4;
     padding: 7px 14px;
-    color: #fdfdfd;
-    border: 1px solid #fff;
+    color: #4d4d4d;
+    border: 1px solid #484848;
     cursor: pointer;
     border-radius: 20px;
     font-family: korFont2;
@@ -507,7 +631,7 @@ export default {
     font-family: korFont2;
     margin-bottom: 10px;
     font-size: 20px;
-    background-color: #fff2ee;
+    background-color: #fffaf8;
     color: black;
     padding: 10px 20px;
     text-align: center;
@@ -539,7 +663,7 @@ export default {
     width: 70px;
   }
   .characterImage {
-    width: 270px;
+    width: 230px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -601,7 +725,7 @@ export default {
     background-color: transparent;
     padding: 10px 17px;
     color: #424242;
-    border: 1px solid #fff;
+    border: 1px solid #c7c7c7;
     cursor: pointer;
     border-radius: 20px;
     font-family: korFont2;
