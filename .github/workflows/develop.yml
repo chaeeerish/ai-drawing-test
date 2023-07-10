@@ -1,9 +1,9 @@
-name: main workflow
+name: develop workflow
 
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   call-workflow-frontend-docker:
@@ -17,9 +17,3 @@ jobs:
     secrets:
       dockerhub-username: ${{ secrets.DOCKERHUB_USERNAME }}
       dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN }}
-  call-workflow-jenkins-build-trigger:
-    needs: [call-workflow-frontend-docker, call-workflow-backend-docker]
-    uses: ./.github/workflows/jenkins-build-trigger.yml  
-    secrets:
-      webhook-url: ${{ secrets.WEBHOOK_URL }}
-      jenkins-api-token: ${{ secrets.JENKINS_API_TOKEN }}
