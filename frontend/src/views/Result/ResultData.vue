@@ -1,98 +1,135 @@
 <template>
   <div class="results-data">
-    <img src="../../assets/images/paintSpring.png" class="paintSpring" />
     <div class="results-main-screen">
-      <h1 class="userName">&lt;{{ username }}님의 결과&gt;</h1>
-      <div class="characterName">
-        {{ character_name[character_id] }}
+      <div class="results-top-container">
+        <p class="logo-text">내가 그린 그림으로 확인해보는 나의 심리</p>
+        <img class="mainLogo" src="../../assets/images/logo1.png" />
       </div>
-      <div>
+      <div class="results-main-content">
+        <h1 class="userName">&lt;{{ username }}님의 결과&gt;</h1>
+        <div class="characterName">
+          {{ character_name[character_id] }}
+        </div>
         <img
           class="characterImage"
           :src="getImageUrl(character_id)"
           alt="Character Image"
         />
-      </div>
+        <p class="character-desc">
+          샷 6번 추가한 아메리카노는 공격성이 높고 기분이 안좋고 등등 샷 6번
+          추가한 아메리카노는 공격성이 높고 기분이 안좋고 등등 샷 6번 추가한
+          아메리카노는 공격성이 높고 기분이 안좋고 등등
+        </p>
 
-      <!-- <img class="paint-spring" src="../../assets/images/paintSpring.png" /> -->
-      <button class="showDetailBtn" @click="showDetail">상세보기</button>
+        <button class="showDetailBtn" @click="showDetail">
+          <img style="width: 80px" src="../../assets/images/next.png" />
+        </button>
+      </div>
+      <div class="results-bottom-container">
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+          "
+        >
+          <a target="_blank" href="https://www.instagram.com/ai.drawingtest/">
+            <img
+              class="socialmedia-icons"
+              src="../../assets/images/instagram.png"
+              alt="인스타그램 프로필 방문 버튼"
+            />
+          </a>
+          <a id="kakaotalk-sharing-btn" href="javascript:;">
+            <img
+              class="socialmedia-icons"
+              src="../../assets/images/kakaotalk.png"
+              alt="카카오톡 공유 보내기 버튼"
+              @click="kakaoLink"
+            />
+          </a>
+
+          <img
+            class="socialmedia-icons"
+            src="../../assets/images/clipboard.png"
+            alt="링크 공유 보내기 버튼"
+            @click="urlCopy"
+          />
+        </div>
+        <p class="copyright-text">©2023 마음스케치 | All rights reserved.</p>
+      </div>
     </div>
 
-    <transition name="fade" @after-enter="createChart">
-      <div v-if="showResults" class="details" :class="{ open: showDetails }">
+    <div class="details" :class="{ open: showDetails }">
+      <div>
+        <canvas id="myChart" :width="14" :height="14"></canvas>
+      </div>
+      <div class="first-result">
         <div>
           <canvas id="myChart" :width="14" :height="14"></canvas>
         </div>
-        <div class="first-result">
-          <div>
-            <canvas id="myChart" :width="14" :height="14"></canvas>
-          </div>
-          <h1 class="first-result-title">{{ username }}님의 나무 그림</h1>
-          <img width="200" height="300" :src="newData.tree_image" alt="image" />
-          <div class="result-texts">
-            <div v-for="(treeAttributes, key1) in tree" :key="key1">
-              <br />
-              <p class="treeAttributes">{{ key1 }}</p>
-              <template v-for="(treeFeatures, key2) in treeAttributes">
-                <div
-                  v-if="treeFeatures !== null && treeFeatures !== undefined"
-                  :key="key2"
-                >
-                  <li class="treefeatures">
-                    {{ key2 }}
-                  </li>
-                  <p class="treevalues">
-                    {{ treeFeatures }}
-                  </p>
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
-        <!-- 광고 -->
-        <div style="padding-top: 10px">
-          <iframe
-            src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=680&height=140&tsource="
-            width="390"
-            height="140"
-            frameborder="0"
-            scrolling="no"
-            referrerpolicy="unsafe-url"
-          ></iframe>
-        </div>
-        <div class="second-result">
-          <h1 class="first-result-title">{{ username }}님의 집 그림</h1>
-          <img
-            width="200"
-            height="300"
-            :src="newData.house_image"
-            alt="image"
-          />
-          <div class="result-texts">
-            <div v-for="(homeAttributes, key1) in home" :key="key1">
-              <br />
-              <p class="treeAttributes">{{ key1 }}</p>
-              <template
-                v-for="(homeFeatures, key2) in homeAttributes"
+        <h1 class="first-result-title">{{ username }}님의 나무 그림</h1>
+        <img width="200" height="300" :src="newData.tree_image" alt="image" />
+        <div class="result-texts">
+          <div v-for="(treeAttributes, key1) in tree" :key="key1">
+            <br />
+            <p class="treeAttributes">{{ key1 }}</p>
+            <template v-for="(treeFeatures, key2) in treeAttributes">
+              <div
+                v-if="treeFeatures !== null && treeFeatures !== undefined"
                 :key="key2"
               >
-                <div
-                  v-if="homeFeatures !== null && homeFeatures !== undefined"
-                  :key="key2"
-                >
-                  <li class="treefeatures">
-                    {{ key2 }}
-                  </li>
-                  <p class="treevalues">
-                    {{ homeFeatures }}
-                  </p>
-                </div>
-              </template>
-            </div>
+                <li class="treefeatures">
+                  {{ key2 }}
+                </li>
+                <p class="treevalues">
+                  {{ treeFeatures }}
+                </p>
+              </div>
+            </template>
           </div>
         </div>
       </div>
-    </transition>
+      <!-- 광고 -->
+      <div style="padding-top: 10px">
+        <iframe
+          src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=680&height=140&tsource="
+          width="390"
+          height="140"
+          frameborder="0"
+          scrolling="no"
+          referrerpolicy="unsafe-url"
+        ></iframe>
+      </div>
+      <div class="second-result">
+        <h1 class="first-result-title">{{ username }}님의 집 그림</h1>
+        <img width="200" height="300" :src="newData.house_image" alt="image" />
+        <div class="result-texts">
+          <div v-for="(homeAttributes, key1) in home" :key="key1">
+            <br />
+            <p class="treeAttributes">{{ key1 }}</p>
+            <template
+              v-for="(homeFeatures, key2) in homeAttributes"
+              :key="key2"
+            >
+              <div
+                v-if="homeFeatures !== null && homeFeatures !== undefined"
+                :key="key2"
+              >
+                <li class="treefeatures">
+                  {{ key2 }}
+                </li>
+                <p class="treevalues">
+                  {{ homeFeatures }}
+                </p>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 광고 -->
     <div style="padding-top: 10px">
@@ -112,8 +149,13 @@
       <AdsenseComponent></AdsenseComponent>
     </div>
 
+    <div class="footer">
+      <img style="width: 60px" src="../../assets/images/icon5.png" />
+      <p>광고 및 후원 문의</p>
+      <p>yoonyoung.lee1218@gmail.com</p>
+    </div>
     <br />
-    <footer class="footer">
+    <!-- <footer class="footer">
       <div class="share-btns">
         <p class="title-text-result">
           <span style="color: #eba090">마음</span>스케치
@@ -135,12 +177,10 @@
             />
           </div>
         </div>
-
-        <!-- <button class="shareBtn" @click="urlCopy">링크복사</button> -->
       </div>
       <p class="result-contact">yoonyoung.lee1218@gmail.com</p>
       <p class="result-copyright">©2023 마음스케치 | All rights reserved.</p>
-    </footer>
+    </footer> -->
   </div>
 </template>
 
@@ -182,7 +222,6 @@ export default {
       home: null,
       graph: [],
       character_id: null,
-      showResults: false,
     };
   },
   methods: {
@@ -258,9 +297,7 @@ export default {
       });
       myChart;
     },
-    showDetail() {
-      this.showResults = !this.showResults;
-    },
+
     getImageUrl(value) {
       return require(`../../assets/images/${value}.png`);
     },
@@ -396,9 +433,6 @@ export default {
     display: inline-block;
     font-family: korFont2;
     background-color: #ffffff;
-    background-image: "../../assets/images/mainPage.png";
-    background-size: cover;
-    /* background-repeat: no-repeat; */
     background-position: center center;
     color: black;
     font-family: korFont1;
@@ -406,31 +440,70 @@ export default {
     height: auto !important;
   }
   .results-main-screen {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-image: url("../../assets/images/mainPage.png");
-    height: calc(var(--vh, 1vh) * 100);
+  }
+  .mainLogo {
+    width: 250px;
+  }
+  .results-top-container {
+    background-image: url("../../assets/images/paintBackground.png");
+    height: calc(var(--vh, 1vh) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .results-main-content {
+    background-color: #fff;
+    height: calc(var(--vh, 1vh) * 68);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .results-bottom-container {
+    background-image: url("../../assets/images/paintBackground.png");
+    height: calc(var(--vh, 1vh) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  .logo-text {
+    color: #fff;
+    font-family: korFont3;
+    font-size: 20px;
+  }
+  .socialmedia-icons {
+    width: 50px;
   }
   .details {
     background: linear-gradient(180deg, #fbf0ee 0%, #ffffff 100%);
   }
-  .paintSpring {
-    position: absolute;
-    top: 5px;
-    width: 100%;
-    left: 0;
-    right: 0;
-  }
   .userName {
     font-size: 25px;
-    padding-top: 90px;
     font-family: korFont3;
     color: #424242;
+    margin-top: 20px;
+  }
+  .character-desc {
+    font-family: korFont2;
+    font-size: 16px;
+    width: 300px;
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.2;
   }
   .first-result {
     padding-top: 50px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
+  }
+  .copyright-text {
+    font-family: korFont2;
+    font-size: 15px;
+    color: #fff;
   }
 
   .first-result-title {
@@ -509,21 +582,19 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
   #myChart {
     width: 160px;
   }
   .showDetailBtn {
-    background-color: #424242;
-    padding: 10px 20px;
+    background-color: transparent;
     color: #ffffff;
     border: none;
     cursor: pointer;
-    border-radius: 25px;
-    margin-top: 40px;
+    margin-bottom: 35px;
     font-family: korFont2;
-    font-size: 16px;
   }
   .characterName {
     font-size: 19px;
@@ -536,20 +607,6 @@ export default {
     max-width: 340px;
     word-wrap: break-word;
     color: #2f2f2f;
-  }
-  .footer {
-    background-color: #424242;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: #ffffff;
-    text-align: left;
-    align-items: left;
-    padding: 10px;
-    font-size: 14px;
-    font-family: korFont2;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
   .title-text-result {
     font-family: korFont1;
@@ -576,6 +633,16 @@ export default {
     font-size: 14px;
     font-weight: 1000;
   }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    font-family: korFont2;
+    font-size: 13px;
+    color: #48484885;
+  }
 }
 
 /* Styles for iPads */
@@ -584,9 +651,7 @@ export default {
     display: inline-block;
     font-family: korFont2;
     background-color: #ffffff;
-
     background-size: cover;
-    /* background-repeat: no-repeat; */
     background-position: center center;
     color: black;
     font-family: korFont1;
@@ -685,15 +750,12 @@ export default {
     width: 320px;
   }
   .showDetailBtn {
-    background-color: #424242;
-    padding: 10px 20px;
+    background-color: transparent;
     color: #ffffff;
     border: none;
     cursor: pointer;
-    border-radius: 25px;
     margin-bottom: 35px;
     font-family: korFont2;
-    font-size: 25px;
   }
   .characterName {
     font-size: 30px;
@@ -704,18 +766,6 @@ export default {
     display: inline-block;
     max-width: 800px;
     word-wrap: break-word;
-  }
-  .footer {
-    background-color: #424242;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: rgb(255, 255, 255);
-    text-align: center;
-    padding: 10px;
-    font-size: 14px;
-    font-family: korFont2;
   }
   .title-text-result {
     font-family: korFont1;
