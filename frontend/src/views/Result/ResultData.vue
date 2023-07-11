@@ -21,11 +21,11 @@
           아메리카노는 공격성이 높고 기분이 안좋고 등등
         </p>
 
-        <button class="showDetailBtn" @click="showDetail">
+        <button class="showDetailBtn" @click="scrollIntoView">
           <img style="width: 80px" src="../../assets/images/next.png" />
         </button>
       </div>
-      <div class="results-bottom-container">
+      <div class="results-bottom-container" >
         <div
           style="
             display: flex;
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div class="details" :class="{ open: showDetails }">
+    <div class="details" :class="{ open: showDetails }" ref="nextSpace">
       <div>
         <canvas id="myChart" :width="14" :height="14"></canvas>
       </div>
@@ -225,6 +225,10 @@ export default {
     };
   },
   methods: {
+    scrollIntoView(){
+      this.$refs.nextSpace.scrollIntoView({behavior:"smooth"});
+    }
+    ,
     createChart() {
       const ctx = document.getElementById("myChart");
       const myChart = new Chart(ctx, {
