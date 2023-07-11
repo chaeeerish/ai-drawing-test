@@ -49,7 +49,7 @@ export default {
 
             var file = JSON.stringify({ name: name });
 
-            fetch(process.env.VUE_APP_IP_ADDRESS + process.env.VUE_APP_FLASK_PORT + "/main", {
+            fetch("http://"+process.env.VUE_APP_IP_ADDRESS + ":"+process.env.VUE_APP_FLASK_PORT + "/main", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

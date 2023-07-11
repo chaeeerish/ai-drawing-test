@@ -168,7 +168,7 @@ export default {
         image: canvasContents,
         id: cookie_userid,
       });
-      fetch(process.env.VUE_APP_IP_ADDRESS + process.env.VUE_APP_FLASK_PORT + "/tree", {
+      fetch("http://"+process.env.VUE_APP_IP_ADDRESS + ":"+process.env.VUE_APP_FLASK_PORT + "/tree", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
