@@ -134,13 +134,13 @@
     <!-- 광고 -->
     <div style="padding-top: 10px">
       <iframe
-        src="https://ads-partners.coupang.com/widgets.html?id=679309&template=carousel&trackingCode=AF0334851&subId=&width=390&height=140&tsource="
+        src="https://ads-partners.coupang.com/widgets.html?id=679511&template=carousel&trackingCode=AF0334851&subId=&width=390&height=140&tsource="
         width="390"
         height="140"
         frameborder="0"
         scrolling="no"
-        referrerpolicy="unsafe-url"
-      ></iframe>
+        referrerpolicy="unsafe-url">
+      </iframe>
     </div>
 
     <!-- 광고 -->
