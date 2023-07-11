@@ -6,10 +6,6 @@ class UserImage(db.Model):
     name = db.Column(db.String(50), nullable=False)
     tree_image = db.Column(db.BLOB)
     house_image = db.Column(db.BLOB)
-    tree_crop_leaf_branch = db.Column(db.BLOB)
-    tree_crop_stem = db.Column(db.BLOB)
-    tree_crop_root = db.Column(db.BLOB)
-    tree_crop_type = db.Column(db.BLOB) 
 
 class UserTreeResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)

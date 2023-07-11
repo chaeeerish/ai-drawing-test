@@ -4,11 +4,7 @@ create table user_image (
 	id integer primary key auto_increment,
     name varchar(50) not null,
     tree_image LONGBLOB,
-    house_image LONGBLOB,
-    tree_crop_leaf_branch LONGBLOB,
-    tree_crop_stem LONGBLOB,
-    tree_crop_root LONGBLOB,
-    tree_crop_type LONGBLOB
+    house_image LONGBLOB
 );
 
 drop table if exists user_tree_result;

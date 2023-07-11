@@ -1,3 +1,7 @@
+import random
+from tree_result import *
+
+# 상수
 AGGRESSION = 0
 ANXIETY = 1
 DEPRESSION = 2
@@ -10,6 +14,13 @@ HAPPINESS = 2
 SOCIAL_COMPETENCE = 3
 HIGH_ESTEEM = 4
 
+TOTAL_GENTLE = 7
+TOTAL_CONFIDENCE = 10
+TOTAL_HAPPINESS = 10
+TOTAL_SOCIAL_CONFIENDCE = 10
+TOTAL_HIGH_ESTEEM = 8
+
+# Character 정의
 class Character():
     def __init__(self, index, combination, name, description):
         self.index = index
@@ -39,8 +50,7 @@ CHARACTER_LIST.append(Character(17, (LOW_ESTEEM, CONFIDENCE), "초코쉐이크�
 CHARACTER_LIST.append(Character(18, (LOW_ESTEEM, HAPPINESS), "따뜻한 숏라떼", "자존감이 낮고 행복한 당신"))
 CHARACTER_LIST.append(Character(19, (LOW_ESTEEM, SOCIAL_COMPETENCE), "수줍은 복숭아 아이스티", "자존감이 낮고 활발한 당신"))
 
-import random
-
+# 메서드 정의
 def match_character(score):
     bad_index = score.index(min(score))
     
@@ -56,3 +66,36 @@ def match_character(score):
         return random.randint(16, 19)
     
     return -1
+
+def calculate_figures(matched_list, matching_list, score):
+    for index in matching_list:
+        row = matched_list[int(index)]
+        score = [x+y for x,y in zip(score, row.score)]
+        
+    return score
+
+# test 메서드
+def test(size_result_list, type_result_list, leap_result_list, branch_result_list, stem_result_list, root_result_list):
+    figures = [0, 0, 0, 0, 0]
+    character = 0
+
+    figures = calculate_figures(TREE_SIZE_RESULT, size_result_list, figures)
+    figures = calculate_figures(TREE_TYPE_RESULT, type_result_list, figures)
+    figures = calculate_figures(TREE_LEAF_RESULT, leap_result_list, figures)
+    figures = calculate_figures(TREE_BRANCH_RESULT, branch_result_list, figures)
+    figures = calculate_figures(TREE_STEM_RESULT, stem_result_list, figures)
+    figures = calculate_figures(TREE_ROOT_RESULT, root_result_list, figures)
+    
+    # figures/total
+    figures_gen = round(1 - (figures[0] / TOTAL_GENTLE), 4)
+    figures_con = round(1 - (figures[1] / TOTAL_CONFIDENCE), 4)
+    figures_hap = round(1 - (figures[2] / TOTAL_HAPPINESS), 4)
+    figures_soc = round(1 - (figures[3] / TOTAL_SOCIAL_CONFIENDCE), 4)
+    figures_hig = round(1 - (figures[4] / TOTAL_HIGH_ESTEEM), 4)
+    
+    # match character
+    character = match_character([figures_gen, figures_con, figures_hap, figures_soc, figures_hig])
+    return character
+
+# run
+print(test([2,4,6], [0], [3], [1], [0], [2]))

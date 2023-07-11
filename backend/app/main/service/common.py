@@ -82,6 +82,4 @@ def classification_multi(model_file_name, binary_img, class_li, SIZE, COUNT):
     for i in range(COUNT):
         if proba[0][sorted_categories[i]] > SCORE_THRESHOLD:
             result_list.append(class_li[sorted_categories[i]])
-            # print(class_li[sorted_categories[i]])
-            # print('score:', proba[0][sorted_categories[i]])
     return result_list

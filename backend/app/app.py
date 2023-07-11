@@ -7,6 +7,7 @@ from flask_cors import CORS
 from main.config.db_connect import db
 from main.controller.api.draw_controller import bp as drawbp
 from main.controller.api.main_controller import bp as mainbp
+# local에서 테스트시 필요한 코드
 # from dotenv import load_dotenv
 
 # load_dotenv()
