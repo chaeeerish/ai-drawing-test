@@ -129,7 +129,7 @@
       </div>
     </div>
   </transition>
-  <loading-page v-if="showLoading" v-bind:newData="newData"></loading-page>
+  <loading-page v-if="showLoading" v-bind:newData="newData" v-bind:doneLoading="doneLoading"></loading-page>
 </template>
 
 <script>
@@ -150,28 +150,9 @@ export default {
       data: "",
       showPaint: true,
       showLoading: false,
+      doneLoading: false,
       mode: null,
-      newData: {
-        name: "geon",
-        tree_image: "1",
-        house_image: "2",
-        tree_result: {
-          "나무 유형": { value: "aaa" },
-          "나무 뿌리": { value: "bbb" },
-          "나무 가지": { value: "ccc" },
-          나뭇잎: { value: "ddd" },
-          "나무 줄기": { value: "eee" },
-          "나무 크기": { value: "fff" },
-        },
-        house_result: {
-          "집 유형": { "home이 많음": "1111", "home이 적음": null },
-          "집 지붕": { "문이 많음": null, "문이 적음": "ccc" },
-          "집 문": { "문이 많음": null, "문이 적음": "ccc" },
-          "집 창문": { "문이 많음": null, "문이 적음": "ccc" },
-        },
-        character: 2,
-        graph: [0.9, 0.9, 0.9, 0.9, 0.9],
-      },
+      newData: "",
     };
   },
   methods: {
@@ -201,6 +182,10 @@ export default {
           this.data = response_json;
           this.removeNull();
           this.newData = this.data;
+          // response 마무리 후 로딩페이지에서 버튼을 만들기위해서
+          this.doneLoading = true;
+
+          //
         });
 
       //결과를 받으면 result를 보여주고 그이전까지는 로딩페이지를 보여준다

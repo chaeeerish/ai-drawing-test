@@ -192,6 +192,14 @@ export default {
     right: 20px;
     bottom: 20px;
   }
+  .touch-screen-loading {
+    position: absolute !important;
+    height: 50px !important;
+    right: 0 !important;
+    left: 0 !important;
+    bottom: 100px !important;
+    margin: auto !important;
+  }
   .texts {
     margin-top: 20px;
   }
@@ -203,6 +211,17 @@ export default {
   }
   .fade-enter-active {
     transition: all 1.5s ease;
+  }
+  .fade-delay-enter-active {
+  transition: opacity 1.5s ease 2s;
+  }
+
+  .fade-delay-enter-from {
+    opacity: 0;
+  }
+
+  .fade-delay-enter-to {
+    opacity: 1;
   }
   .first-enter-from {
     opacity: 0;

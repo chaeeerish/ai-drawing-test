@@ -7,7 +7,7 @@
       <img class="icon-sound1" src="../../assets/images/volumeoff.png" />
     </button>
 
-    <form method="post" class="name-form">
+    <form method="post" class="name-form" @submit.prevent>
       <label class="name-label">시작하기 전, <br />이름을 입력해주세요:</label>
       <input class="name-input" type="text" required v-model="name" />
       <p class="prestart-text">
