@@ -14,8 +14,8 @@ from main.service.tree.tree_result import *
 from main.service.tree.tree_service import *
 from main.service.character.character import *
 
-TOTAL_GENTLE = 9
-TOTAL_CONFIDENCE = 12
+TOTAL_GENTLE = 7
+TOTAL_CONFIDENCE = 10
 TOTAL_HAPPINESS = 10
 TOTAL_SOCIAL_CONFIENDCE = 10
 TOTAL_HIGH_ESTEEM = 8
@@ -51,20 +51,25 @@ def call_tree_model(id):
     root_result_list = []
     
     # 0. tree_size_location
-    size_result_list = detection_tree(user.tree_image, id)
+    size_result_list, crop_img_dict = detection_tree(user.tree_image)
+
+    # 1.0, 1001: 가지, 잎 tree crop leaf branch
+    # 2.0, 1002: 줄기 tree crop stem
+    # 3.0, 1003: 뿌리 tree crop root
+    # 4.0, 1004: 나무 전체 tree crop type
 
     # 1. tree_type 나무 타입 분류 모델
     # return 0 1 2 3 4 중에 하나 
-    if check_model_execution_conditions(user.tree_crop_type):
-        type_result_list.append(classification('tree_type', user.tree_crop_type, 300))
+    if check_model_execution_conditions(crop_img_dict[4.0]):
+        type_result_list.append(classification('tree_type', crop_img_dict[4.0], 300))
     else:
         # error 발생시키기
         pass
 
     # 2. 3. 잎, 열매, 꽃, 가지  
-    if check_model_execution_conditions(user.tree_crop_leaf_branch):
+    if check_model_execution_conditions(crop_img_dict[1.0]):
         label_names = [TREE_LEAF_FRUIT.summary, TREE_BRANCH_UP.summary, TREE_LEAF_LEAFY.summary, TREE_LEAF_FLOWER.summary, TREE_BRANCH_NET.summary, TREE_LEAF_BIG.summary, TREE_BRANCH_UNCLOSED.summary]
-        label_return = classification_multi('leaf_branch', user.tree_crop_leaf_branch, label_names, 200, 7)
+        label_return = classification_multi('leaf_branch', crop_img_dict[1.0], label_names, 200, 7)
         
         for leaf in TREE_LEAF_RESULT:
             if leaf.summary in label_return:
@@ -75,17 +80,17 @@ def call_tree_model(id):
                 branch_result_list.append(branch.index)
 
     # 4. stem 줄기 => [0, 0, 0]
-    if check_model_execution_conditions(user.tree_crop_stem):
+    if check_model_execution_conditions(crop_img_dict[2.0]):
         label_names = [TREE_STEM_RING.summary, TREE_STEM_ANIMAL.summary, '나이테_나무껍질_옹이_X']
-        label_return = classification_multi('stem', user.tree_crop_stem, label_names, 200, 3)
+        label_return = classification_multi('stem', crop_img_dict[2.0], label_names, 200, 3)
 
         for stem in TREE_STEM_RESULT:
             if stem.summary in label_return:
                 stem_result_list.append(stem.index)
         
     # 5. root 뿌리 => 1 2 3 4 5 중에 하나
-    if check_model_execution_conditions(user.tree_crop_root):
-        root_result_list.append(classification('root', user.tree_crop_root, 300))
+    if check_model_execution_conditions(crop_img_dict[3.0]):
+        root_result_list.append(classification('root', crop_img_dict[3.0], 300))
 
     # result save
     result.size = ''.join(map(str, size_result_list))
@@ -104,11 +109,11 @@ def call_tree_model(id):
     result.figures = calculate_figures(TREE_ROOT_RESULT, root_result_list, result.figures)
     
     # figures/total
-    result.figures_gen = round(1 - (result.figures[0] / TOTAL_GENTLE), 3)
-    result.figures_con = round(1 - (result.figures[1] / TOTAL_CONFIDENCE), 3)
-    result.figures_hap = round(1 - (result.figures[2] / TOTAL_HAPPINESS), 3)
-    result.figures_soc = round(1 - (result.figures[3] / TOTAL_SOCIAL_CONFIENDCE), 3)
-    result.figures_hig = round(1 - (result.figures[4] / TOTAL_HIGH_ESTEEM), 3)
+    result.figures_gen = round(1 - (result.figures[0] / TOTAL_GENTLE), 4)
+    result.figures_con = round(1 - (result.figures[1] / TOTAL_CONFIDENCE), 4)
+    result.figures_hap = round(1 - (result.figures[2] / TOTAL_HAPPINESS), 4)
+    result.figures_soc = round(1 - (result.figures[3] / TOTAL_SOCIAL_CONFIENDCE), 4)
+    result.figures_hig = round(1 - (result.figures[4] / TOTAL_HIGH_ESTEEM), 4)
     
     # match character
     result.character = match_character([result.figures_gen, result.figures_con, result.figures_hap, result.figures_soc, result.figures_hig])
@@ -121,7 +126,7 @@ def check_model_execution_conditions(img):
     return False
 
 #detection function
-def detection_tree(img_binary, userid):
+def detection_tree(img_binary):
     result_list = []
     
     encoded_img = np.fromstring(img_binary, dtype = np.uint8)
@@ -155,6 +160,8 @@ def detection_tree(img_binary, userid):
     stem_height = 0
     stem_width = 0
 
+    crop_img_dict = {1.0: None, 2.0: None, 3.0: None, 4.0: None}
+
     for i in range(min(result['detection_scores'][0].shape[0], OBJECT_DEFAULT_COUNT)):
         score = result['detection_scores'][0,i]
         if score < SCORE_THRESHOLD: #임계값보다 작을 경우 break
@@ -168,21 +175,18 @@ def detection_tree(img_binary, userid):
 
         crop_img = draw_img[int(top):int(bottom),int(left):int(right)] #detection 하여 그린 박스만큼 이미지 크롭
         
-        # 1001: 가지, 잎
-        # 1002: 줄기
-        # 1003: 뿌리
-        # 1004: 나무 전체
+        # 1.0, 1001: 가지, 잎
+        # 2.0, 1002: 줄기
+        # 3.0, 1003: 뿌리
+        # 4.0, 1004: 나무 전체
 
-        ###########추가
         if labels_to_names[class_id] == '1004':
             tree_height = bottom-top
             tree_width = right-left
-            # tree_size, location = tree_size_loc(height, width, top, bottom, left, right)
             result_list.extend(tree_size_loc(height, width, top, bottom, left, right))
         elif labels_to_names[class_id] == '1002':
             stem_height = bottom-top
             stem_width = right-left
-        ###########
 
         npImage = Image.fromarray(crop_img)
         img_byte_arr = io.BytesIO()
@@ -190,31 +194,18 @@ def detection_tree(img_binary, userid):
         img_byte_arr = img_byte_arr.getvalue()
 
         # crop한 이미지 db에 저장한다.
-        update_user_tree_crop(class_id, userid ,img_byte_arr)
-        # cv2.imwrite('./image/'+labels_to_names[class_id]+'.png',cv2.cvtColor(crop_img, cv2.COLOR_RGB2BGR)) #크롭하여 로컬에 저장 (저장 안 하는 방식으로 수정?)
+        crop_img_dict[class_id] = img_byte_arr
+        # update_user_tree_crop(class_id, userid ,img_byte_arr)
 
         caption = "{}: {:.4f}".format(labels_to_names[class_id], score)
     
     ################
     # 줄기 사이즈
-    # stem_size = 0 #보통이다
-    if stem_height > tree_height * (1/2):
-        # stem_size = 2 #길다
+    # stem_size = 0 # 보통이다
+    if stem_height < tree_height * (1/6):
         result_list.append(4)
-    elif stem_height < tree_height * (1/6):
-        stem_size = 1  #짧다
-        result_list.append(5)
 
-    # 줄기 굵기
-    stem_thickness = 0 #보통이다
-    if stem_width  < tree_width/10:
-        stem_thickness = 1 # 얇다
-        result_list.append(7)
-    elif stem_width > tree_width * 0.4: # 0.4로 수정함
-        stem_thickness = 2 # 굵다
-        result_list.append(6)
-    ##########    
-    return result_list
+    return result_list, crop_img_dict
 
 
 def tree_size_loc(height, width, top, bottom, left, right):##새로 생성

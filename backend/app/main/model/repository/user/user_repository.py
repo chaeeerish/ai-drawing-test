@@ -49,15 +49,3 @@ def update_user_draw(id, img_binary, step):
     elif step == 2:
         user.house_image = img_binary
     db.session.commit()
-
-def update_user_tree_crop(class_id, id, npbinary):
-    user = find_user(id)
-    if class_id == 1.0:
-        user.tree_crop_leaf_branch = npbinary
-    elif class_id == 2.0:
-        user.tree_crop_stem = npbinary
-    elif class_id == 3.0:
-        user.tree_crop_root = npbinary
-    else: # class_id == 4.0
-        user.tree_crop_type = npbinary
-    db.session.commit()

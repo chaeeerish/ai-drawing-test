@@ -188,22 +188,6 @@ def detection_house(binaryimg):
       elif max(door_height_list) < max(wall_height_list) * 0.4:
          door_result_list.append(3)
 
-    # print("[start] detection_list.count")
-    # print("지붕 개수: ", detection_list.count('1001'))
-    # print("벽 개수: ", detection_list.count('1002'))
-    # print("창문 개수: ", detection_list.count('1003'))
-    # print("문 개수: ", detection_list.count('1004'))
-    # print("[end] detection_list.count")
-    # print()
-
-    # print("[start] detection_list")
-    # print(detection_list)
-    # print(roof_result_list)
-    # print(door_result_list)
-    # print(window_result_list)
-    # print("[end] detection_list")
-    # print()
-
     return {
         "roof_result": roof_result_list,
         "door_result": door_result_list,

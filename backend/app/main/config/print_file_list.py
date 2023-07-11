@@ -1,14 +1,14 @@
 import boto3
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-# .env 파일 로드
-load_dotenv()
+# # .env 파일 로드
+# load_dotenv()
 
-print("******************")
-print(os.environ.get('AWS_ACCESS_KEY_ID'))
-print(os.environ.get('AWS_SECRET_ACCESS_KEY'))
-print("******************")
+# print("******************")
+# print(os.environ.get('AWS_ACCESS_KEY_ID'))
+# print(os.environ.get('AWS_SECRET_ACCESS_KEY'))
+# print("******************")
 
 s3 = boto3.client('s3',
     		aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID'),
