@@ -497,7 +497,7 @@ export default {
   }
   .character-desc {
     font-family: korFont2;
-    font-size: 14px;
+    font-size: 12.5px;
     width: 300px;
     text-align: left;
     margin-bottom: 20px;
@@ -586,7 +586,7 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 150px;
+    width: 140px;
     display: block;
     margin-left: auto;
     margin-right: auto;

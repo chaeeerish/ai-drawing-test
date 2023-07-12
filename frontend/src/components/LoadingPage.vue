@@ -76,7 +76,7 @@ export default {
     align-items: center;
   }
   .loading-maintext {
-    font-size: 18px;
+    font-size: 16.5px;
     text-align: left;
     line-height: 2;
     padding-top: 30px;
