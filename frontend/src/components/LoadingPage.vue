@@ -76,7 +76,7 @@ export default {
     align-items: center;
   }
   .loading-maintext {
-    font-size: 18px;
+    font-size: 16.5px;
     text-align: left;
     line-height: 2;
     padding-top: 30px;
@@ -121,7 +121,7 @@ export default {
 }
 
 /* Styles for iPads */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
   .loading-page {
     height: calc(var(--vh, 1vh) * 100);
     background-image: url("../assets/images/night.jpg");

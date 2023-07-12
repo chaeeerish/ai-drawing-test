@@ -95,8 +95,8 @@
       <!-- 광고 -->
       <div style="padding-top: 10px">
         <iframe
-          src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=680&height=140&tsource="
-          width="390"
+          src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=200&height=140&tsource="
+          width="200"
           height="140"
           frameborder="0"
           scrolling="no"
@@ -132,10 +132,14 @@
     </div>
 
     <!-- 광고 -->
+    <p class="coupang-text">
+      이 포스팅은 쿠팡 파트너스 활동의 일환으로,
+      이에 따른 일정액의 수수료를 제공받습니다.
+    </p>
     <div style="padding-top: 10px">
       <iframe
-        src="https://ads-partners.coupang.com/widgets.html?id=679511&template=carousel&trackingCode=AF0334851&subId=&width=390&height=140&tsource="
-        width="390"
+        src="https://ads-partners.coupang.com/widgets.html?id=679511&template=carousel&trackingCode=AF0334851&subId=&width=200&height=140&tsource="
+        width="200"
         height="140"
         frameborder="0"
         scrolling="no"
@@ -486,14 +490,14 @@ export default {
     background: linear-gradient(180deg, #fbf0ee 0%, #ffffff 100%);
   }
   .userName {
-    font-size: 25px;
+    font-size: 21px;
     font-family: korFont3;
     color: #424242;
     margin-top: 20px;
   }
   .character-desc {
     font-family: korFont2;
-    font-size: 16px;
+    font-size: 12.5px;
     width: 300px;
     text-align: left;
     margin-bottom: 20px;
@@ -582,7 +586,7 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 200px;
+    width: 140px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -601,10 +605,10 @@ export default {
     font-family: korFont2;
   }
   .characterName {
-    font-size: 19px;
+    font-size: 17px;
     font-family: korFont2;
     font-weight: 1000;
-    padding-top: 30px;
+    padding-top: 20px;
     padding-bottom: 0px;
     border-radius: 10px;
     display: inline-block;
@@ -647,10 +651,22 @@ export default {
     font-size: 13px;
     color: #48484885;
   }
+  iframe {
+  width: 100%;
+  }
+  .coupang-text {
+  font-size: 8px;
+  text-align: center;
+  color: gray;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  }
 }
 
 /* Styles for iPads */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
   .results-data {
     display: inline-block;
     font-family: korFont2;
@@ -797,6 +813,15 @@ export default {
     font-family: korFont2;
     font-size: 18px;
     font-weight: 1000;
+  }
+  iframe {
+  width: 100%;
+  }
+  .coupang-text {
+  font-size: 12px;
+  text-align: center;
+  color: gray;
+  margin: 0;
   }
 }
 </style>
