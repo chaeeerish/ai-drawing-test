@@ -197,7 +197,7 @@ export default {
     height: 50px !important;
     right: 0 !important;
     left: 0 !important;
-    bottom: 100px !important;
+    bottom: 48px !important;
     margin: auto !important;
   }
   .texts {
