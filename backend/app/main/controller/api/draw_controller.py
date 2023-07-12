@@ -1,16 +1,19 @@
 # standard library imports
 import base64
 import json
+
 # Third party imports
 from flask import (Blueprint, jsonify, redirect, request, session, url_for)
 from flask_cors import CORS
 from flask_restx import Api, Resource, reqparse, Namespace
+
 # local application imports
 from main.config.db_connect import db
 from main.model.repository.user.user_repository import *
 from main.service.tree.tree_service import *
 from main.service.house.house_service import *
 from main.service.character.character import *
+from main.service.common import send_slack_notification
 
 bp = Blueprint('draw', __name__, url_prefix='/')
 api = Namespace('draw_controller', description='draw_controller')
@@ -27,6 +30,8 @@ def tree_controller():
         call_tree_model(params['id'])
         # http response
         return jsonify({'id': params['id']}), 200
+    else:
+        return jsonify({'error': 'Invalid request method'}), 400 
 
 @api.route('/house')    
 @bp.route('/house', methods=['POST'])
@@ -70,7 +75,12 @@ def house_controller():
                       user_tree_result.figures_hig]
             }), 200
     else:
-        return 404
+        return jsonify({'error': 'Invalid request method'}), 400 
+
+# 오류 핸들러
+@bp.app_errorhandler(Exception)
+def handle_error(error):
+    send_slack_notification(error, request)
 
 def set_up(id, img_str, step):
     save_session(id, step)
