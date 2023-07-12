@@ -52,20 +52,40 @@ CHARACTER_LIST.append(Character(19, (LOW_ESTEEM, SOCIAL_COMPETENCE), "수줍은 
 
 # 메서드 정의
 def match_character(score):
-    bad_index = score.index(min(score))
+    bad_score = min(score)
+    good_score = max(score)
+
+    bad_index_list = []
+    good_index_list = []
     
-    if bad_index == 0:
-        return random.randint(0, 3)
-    elif bad_index == 1:
-        return random.randint(4, 7)
-    elif bad_index == 2:
-        return random.randint(8, 11)
-    elif bad_index == 3:
-        return random.randint(12, 15)
-    elif bad_index == 4:
-        return random.randint(16, 19)
+    for index in range(0, len(score)):
+        if score[index] == bad_score:
+            bad_index_list.append(index)
+        if score[index] == good_score:
+            good_index_list.append(index)
+
+    bad_index = random.choice(bad_index_list)
+    good_index = random.choice(good_index_list)
+
+    if bad_index == good_index:
+        if bad_index == 0:
+            return random.randint(0, 3)
+        elif bad_index == 1:
+            return random.randint(4, 7)
+        elif bad_index == 2:
+            return random.randint(8, 11)
+        elif bad_index == 3:
+            return random.randint(12, 15)
+        elif bad_index == 4:
+            return random.randint(16, 19)
+        
+    combination = (bad_index, good_index)
+
+    for character in CHARACTER_LIST:
+        if character.combination == combination:
+            return character.index
     
-    return -1
+    return 0
 
 def calculate_figures(matched_list, matching_list, score):
     for index in matching_list:
@@ -98,4 +118,4 @@ def test(size_result_list, type_result_list, leap_result_list, branch_result_lis
     return character
 
 # run
-print(test([2,4,6], [0], [3], [1], [0], [2]))
+print(test([2], [0], [3], [1], [0], [2]))
