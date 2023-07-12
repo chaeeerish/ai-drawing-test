@@ -666,7 +666,7 @@ export default {
 }
 
 /* Styles for iPads */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
   .results-data {
     display: inline-block;
     font-family: korFont2;

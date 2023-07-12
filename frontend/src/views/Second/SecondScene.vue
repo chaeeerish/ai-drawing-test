@@ -203,7 +203,7 @@ export default {
 }
 
 /* Styles for iPads */
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
   .second-scene {
     height: calc(var(--vh, 1vh) * 100);
     width: 100%;
