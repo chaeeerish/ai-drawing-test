@@ -490,14 +490,14 @@ export default {
     background: linear-gradient(180deg, #fbf0ee 0%, #ffffff 100%);
   }
   .userName {
-    font-size: 25px;
+    font-size: 21px;
     font-family: korFont3;
     color: #424242;
     margin-top: 20px;
   }
   .character-desc {
     font-family: korFont2;
-    font-size: 16px;
+    font-size: 14px;
     width: 300px;
     text-align: left;
     margin-bottom: 20px;
@@ -586,7 +586,7 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 200px;
+    width: 150px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -605,10 +605,10 @@ export default {
     font-family: korFont2;
   }
   .characterName {
-    font-size: 19px;
+    font-size: 17px;
     font-family: korFont2;
     font-weight: 1000;
-    padding-top: 30px;
+    padding-top: 20px;
     padding-bottom: 0px;
     border-radius: 10px;
     display: inline-block;
