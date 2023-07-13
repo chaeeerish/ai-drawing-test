@@ -600,6 +600,7 @@ html {
   outline: inherit;
   height: 45px;
   margin-top: 10px;
+  -webkit-tap-highlight-color : transparent !important;
 }
 .reset-btn {
   border: none;

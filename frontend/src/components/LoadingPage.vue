@@ -24,7 +24,7 @@
         <p v-if="!doneLoading" class="touch-text1">잠시만 기다려주세요...</p>
       </transition>
       <transition name="fade-delay">
-        <img v-if="doneLoading" @click="moveToResult" class="touch-screen-loading" src="../assets/images/next.png"/>
+        <img v-if="doneLoading" @click="moveToResult" class="touch-text2" src="../assets/images/next.png"/>
       </transition>
     </div>
   </transition>
@@ -117,6 +117,16 @@ export default {
     width: 45px;
     display: inline-block;
     margin-top: 30px;
+  }
+  .touch-text2{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 8%;
+    width: 70px;
   }
 }
 
@@ -231,6 +241,16 @@ export default {
   }
   .first-leave-active {
     transition: all 1s ease;
+  }
+  .touch-text2{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    bottom: 8%;
+    width: 70px;
   }
 }
 </style>

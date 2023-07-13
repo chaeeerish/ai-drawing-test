@@ -57,19 +57,24 @@
             alt="링크 공유 보내기 버튼"
             @click="urlCopy"
           />
+
+          <img
+            class="socialmedia-icons"
+            src="../../assets/images/capture.png"
+            alt="링크 공유 보내기 버튼"
+            @click="captureScreen"
+          />
         </div>
         <p class="copyright-text">©2023 마음스케치 | All rights reserved.</p>
       </div>
     </div>
 
     <div class="details" :class="{ open: showDetails }" ref="nextSpace">
-      <div>
-        <canvas id="myChart" :width="14" :height="14"></canvas>
+      <p class="graph-text"> 나의 심리 그래프</p>
+      <div class="chart-wrapper">
+        <canvas id="myChart" :width="220" :height="180"></canvas>
       </div>
       <div class="first-result">
-        <div>
-          <canvas id="myChart" :width="14" :height="14"></canvas>
-        </div>
         <h1 class="first-result-title">{{ username }}님의 나무 그림</h1>
         <img width="200" height="300" :src="newData.tree_image" alt="image" />
         <div class="result-texts">
@@ -93,15 +98,15 @@
         </div>
       </div>
       <!-- 광고 -->
-      <div style="padding-top: 10px">
+      <div>
         <iframe
           src="https://ads-partners.coupang.com/widgets.html?id=679296&template=carousel&trackingCode=AF0334851&subId=&width=200&height=140&tsource="
           width="200"
           height="140"
           frameborder="0"
           scrolling="no"
-          referrerpolicy="unsafe-url"
-        ></iframe>
+          referrerpolicy="unsafe-url">
+        </iframe>
       </div>
       <div class="second-result">
         <h1 class="first-result-title">{{ username }}님의 집 그림</h1>
@@ -190,6 +195,7 @@
 
 <script>
 import Chart from "chart.js/auto";
+import html2canvas from 'html2canvas';
 import AdsenseComponent from "@/AdsenseComponent.vue";
 export default {
   name: "ResultData",
@@ -229,82 +235,100 @@ export default {
     };
   },
   methods: {
+    captureScreen() {
+    const elements = document.getElementsByClassName('results-main-screen');
+    const element = elements[0];
+
+    html2canvas(element).then((canvas) => {
+      const image = canvas.toDataURL('image/png');
+      this.saveToPhotoAlbum(image);
+    });
+    },
+    saveToPhotoAlbum(imageData) {
+      const link = document.createElement('a');
+      link.href = imageData;
+      link.download = '결과 화면.png';
+      link.addEventListener('click', () => {
+        alert('결과 화면을 저장합니다.');
+      });
+      link.click();
+    },
     scrollIntoView(){
       this.$refs.nextSpace.scrollIntoView({behavior:"smooth"});
     }
     ,
-    createChart() {
-      const ctx = document.getElementById("myChart");
-      const myChart = new Chart(ctx, {
-        type: "radar",
-        data: {
-          labels: [
-            "온화함 😚",
-            "자신감 😏",
-            "행복함 😆",
-            "사회성 😎 ",
-            "높은 자존감 😤",
-          ],
-          datasets: [
-            {
-              label: "수치",
-              data: this.graph,
-              backgroundColor: [
-                // "rgba(255, 99, 132, 0.2)",
-                // "rgba(54, 162, 235, 0.2)",
-                // "rgba(255, 206, 86, 0.2)",
-                // "rgba(75, 192, 192, 0.2)",
-                // "rgba(153, 102, 255, 0.2)",
-                "transparent",
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                // "rgba(54, 162, 235, 1)",
-                // "rgba(255, 206, 86, 1)",
-                // "rgba(75, 192, 192, 1)",
-                // "rgba(153, 102, 255, 1)",
-              ],
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          layout: {
-            padding: {
-              top: 10,
-              bottom: 10,
-              left: 10,
-              right: 10,
-            },
-          },
-          plugins: {
-            legend: {
-              display: false, // Hide the legend
-            },
-          },
-          scales: {
-            r: {
-              beginAtZero: true,
-              max: 1,
-              angleLines: {
-                display: false,
-              },
-              gridLines: {
-                display: false, // Hide the grid lines inside the pentagon
-              },
-              ticks: {
-                display: false,
-              },
-              pointLabels: {
-                fontSize: 18, // Set the font size for the labels
-              },
-            },
-          },
-        },
-      });
-      myChart;
-    },
+    // createChart() {
+    //   const ctx = document.getElementById("myChart");
+    //   const myChart = new Chart(ctx, {
+    //     type: "radar",
+    //     data: {
+    //       labels: [
+    //         "온화함 😚",
+    //         "자신감 😏",
+    //         "행복함 😆",
+    //         "사회성 😎 ",
+    //         "높은 자존감 😤",
+    //       ],
+    //       datasets: [
+    //         {
+    //           label: "수치",
+    //           data: this.graph,
+    //           backgroundColor: [
+    //             // "rgba(255, 99, 132, 0.2)",
+    //             // "rgba(54, 162, 235, 0.2)",
+    //             // "rgba(255, 206, 86, 0.2)",
+    //             // "rgba(75, 192, 192, 0.2)",
+    //             // "rgba(153, 102, 255, 0.2)",
+    //             "transparent",
+    //           ],
+    //           borderColor: [
+    //             "rgba(255, 99, 132, 1)",
+    //             // "rgba(54, 162, 235, 1)",
+    //             // "rgba(255, 206, 86, 1)",
+    //             // "rgba(75, 192, 192, 1)",
+    //             // "rgba(153, 102, 255, 1)",
+    //           ],
+    //           borderWidth: 2,
+    //         },
+    //       ],
+    //     },
+    //     options: {
+    //       maintainAspectRatio: false,
+    //       layout: {
+    //         padding: {
+    //           top: 10,
+    //           bottom: 10,
+    //           left: 10,
+    //           right: 10,
+    //         },
+    //       },
+    //       plugins: {
+    //         legend: {
+    //           display: false, // Hide the legend
+    //         },
+    //       },
+    //       scales: {
+    //         r: {
+    //           beginAtZero: true,
+    //           max: 1,
+    //           angleLines: {
+    //             display: false,
+    //           },
+    //           gridLines: {
+    //             display: false, // Hide the grid lines inside the pentagon
+    //           },
+    //           ticks: {
+    //             display: false,
+    //           },
+    //           pointLabels: {
+    //             fontSize: 18, // Set the font size for the labels
+    //           },
+    //         },
+    //       },
+    //     },
+    //   });
+    //   myChart;
+    // },
 
     getImageUrl(value) {
       return require(`../../assets/images/${value}.png`);
@@ -359,76 +383,78 @@ export default {
     document.head.appendChild(script);
 
     console.log("Component mounted.");
-    // const ctx = document.getElementById("myChart");
-    // const myChart = new Chart(ctx, {
-    //   type: "radar",
-    //   data: {
-    //     labels: [
-    //       "온화함 😚",
-    //       "자신감 😏",
-    //       "행복함 😆",
-    //       "사회성 😎 ",
-    //       "높은 자존감 😤",
-    //     ],
-    //     datasets: [
-    //       {
-    //         label: "수치",
-    //         data: this.graph,
-    //         backgroundColor: [
-    //           // "rgba(255, 99, 132, 0.2)",
-    //           // "rgba(54, 162, 235, 0.2)",
-    //           // "rgba(255, 206, 86, 0.2)",
-    //           // "rgba(75, 192, 192, 0.2)",
-    //           // "rgba(153, 102, 255, 0.2)",
-    //           "transparent",
-    //         ],
-    //         borderColor: [
-    //           "rgba(255, 99, 132, 1)",
-    //           // "rgba(54, 162, 235, 1)",
-    //           // "rgba(255, 206, 86, 1)",
-    //           // "rgba(75, 192, 192, 1)",
-    //           // "rgba(153, 102, 255, 1)",
-    //         ],
-    //         borderWidth: 2,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     maintainAspectRatio: false,
-    //     layout: {
-    //       padding: {
-    //         top: 10,
-    //         bottom: 10,
-    //         left: 10,
-    //         right: 10,
-    //       },
-    //     },
-    //     plugins: {
-    //       legend: {
-    //         display: false, // Hide the legend
-    //       },
-    //     },
-    //     scales: {
-    //       r: {
-    //         beginAtZero: true,
-    //         max: 1,
-    //         angleLines: {
-    //           display: false,
-    //         },
-    //         gridLines: {
-    //           display: false, // Hide the grid lines inside the pentagon
-    //         },
-    //         ticks: {
-    //           display: false,
-    //         },
-    //         pointLabels: {
-    //           fontSize: 18, // Set the font size for the labels
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
-    // myChart;
+    const ctx = document.getElementById("myChart");
+    const myChart = new Chart(ctx, {
+      type: "radar",
+      data: {
+        labels: [
+          "온화함 😚",
+          "자신감 😏",
+          "행복함 😆",
+          "사회성 😎 ",
+          "높은 자존감 😤",
+        ],
+        datasets: [
+          {
+            label: "수치",
+            data: this.graph,
+            backgroundColor: [
+              // "rgba(255, 99, 132, 0.2)",
+              // "rgba(54, 162, 235, 0.2)",
+              // "rgba(255, 206, 86, 0.2)",
+              // "rgba(75, 192, 192, 0.2)",
+              // "rgba(153, 102, 255, 0.2)",
+              "transparent",
+            ],
+            borderColor: [
+              "rgba(255, 99, 132, 1)",
+              // "rgba(54, 162, 235, 1)",
+              // "rgba(255, 206, 86, 1)",
+              // "rgba(75, 192, 192, 1)",
+              // "rgba(153, 102, 255, 1)",
+            ],
+            borderWidth: 2,
+          },
+        ],
+      },
+      options: {
+        responsive: false,
+        maintainAspectRatio: false,
+        aspectRatio: 1,
+        layout: {
+          padding: {
+            top: 0,
+            bottom: 0,
+            left: 5,
+            right: 12,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false, // Hide the legend
+          },
+        },
+        scales: {
+          r: {
+            beginAtZero: true,
+            max: 1,
+            angleLines: {
+              display: false,
+            },
+            gridLines: {
+              display: false, // Hide the grid lines inside the pentagon
+            },
+            ticks: {
+              display: false,
+            },
+            pointLabels: {
+              fontSize: 18, // Set the font size for the labels
+            },
+          },
+        },
+      },
+    });
+    myChart;
   },
 };
 </script>
@@ -506,7 +532,6 @@ export default {
   .first-result {
     padding-top: 50px;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
   }
   .copyright-text {
     font-family: korFont2;
@@ -516,6 +541,7 @@ export default {
 
   .first-result-title {
     font-size: 20px;
+    margin-top: 20px;
     margin-bottom: 10px;
     font-family: korFont3;
     color: #0000008a;
@@ -595,6 +621,12 @@ export default {
   }
   #myChart {
     width: 160px;
+    height: 160px;
+    display: block;
+    box-sizing: content-box;
+    border-style: solid;
+    border-width: 1.5px;
+    border-color: rgb(7, 7, 29);
   }
   .showDetailBtn {
     background-color: transparent;
@@ -603,6 +635,7 @@ export default {
     cursor: pointer;
     margin-bottom: 35px;
     font-family: korFont2;
+    -webkit-tap-highlight-color : transparent !important;
   }
   .characterName {
     font-size: 17px;
@@ -663,6 +696,17 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   }
+  .graph-text{
+    padding-top: 30px;
+    padding-bottom: 15px;
+    font-family: korFont2;
+    font-weight: 600;
+  }
+  .chart-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* Styles for iPads */
@@ -687,7 +731,6 @@ export default {
   .first-result {
     margin-top: 50px;
     border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
   }
 
   .first-result-title {
@@ -768,6 +811,17 @@ export default {
   }
   #myChart {
     width: 320px;
+    display: block;
+    box-sizing: content-box;
+    height: 160px;
+    border-style: solid;
+    border-width: 1.5px;
+    border-color: rgb(7, 7, 29);
+  }
+  .chart-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .showDetailBtn {
     background-color: transparent;
@@ -776,6 +830,7 @@ export default {
     cursor: pointer;
     margin-bottom: 35px;
     font-family: korFont2;
+    -webkit-tap-highlight-color : transparent !important;
   }
   .characterName {
     font-size: 30px;
@@ -822,6 +877,12 @@ export default {
   text-align: center;
   color: gray;
   margin: 0;
+  }
+  .graph-text{
+    padding-top: 30px;
+    padding-bottom: 15px;
+    font-family: korFont2;
+    font-weight: 600;
   }
 }
 </style>

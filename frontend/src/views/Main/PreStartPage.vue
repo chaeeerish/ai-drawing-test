@@ -26,7 +26,7 @@
     <div class="prestart-img-box">
       <img class="prestart-image" src="../../assets/images/heart.png" />
     </div>
-    <button type="submit" @click="onClickNext" class="next-btn">NEXT</button>
+    <button type="submit" @click.once="onClickNext" class="next-btn">NEXT</button>
   </div>
 </template>
 
@@ -130,6 +130,7 @@ export default {
     padding: 0;
     cursor: pointer;
     outline: inherit;
+    -webkit-tap-highlight-color : transparent !important;
   }
   .sound-btn {
     color: #ffffff;
@@ -241,6 +242,7 @@ export default {
     padding: 0;
     cursor: pointer;
     outline: inherit;
+    -webkit-tap-highlight-color : transparent !important;
   }
   .sound-btn {
     color: #ffffff;
