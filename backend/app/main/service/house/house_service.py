@@ -206,13 +206,13 @@ def detection_house(binaryimg):
       wall_width = wall_width_list[wall_score_max_index]
       wall_height = wall_height_list[wall_score_max_index]
 
-      door_score_max_index = door_score_list.index(max(door_score_list))
-      door_width = door_width_list[door_score_max_index]
-      door_height = door_height_list[door_score_max_index]
+      for i in range(0, len(door_width_list)):
+        door_width = door_width_list[i]
+        door_height = door_height_list[i]
+        door_size_result = door_size(door_height, door_width, wall_height, wall_width)
 
-      door_size_result = door_size(door_height, door_width, wall_height, wall_width)
-      if door_size_result != -1:
-        door_result_list.append(door_size_result)
+        if door_size_result != -1 and door_size_result not in door_result_list:
+          door_result_list.append(door_size_result)
 
     return {
         "roof_result": roof_result_list,
