@@ -18,13 +18,18 @@
           Back-End: 양채린, 황혜수, 백소미 <br />
           AI: 이수민, 이겸희 <br />Design: 이가윤
         </p>
-        <img  class="loading-img" src="../assets/images/heart.png" />
+        <img class="loading-img" src="../assets/images/heart.png" />
       </div>
       <transition name="fade">
         <p v-if="!doneLoading" class="touch-text1">잠시만 기다려주세요...</p>
       </transition>
       <transition name="fade-delay">
-        <img v-if="doneLoading" @click="moveToResult" class="touch-text2" src="../assets/images/next.png"/>
+        <img
+          v-if="doneLoading"
+          @click="moveToResult"
+          class="touch-text2"
+          src="../assets/images/next.png"
+        />
       </transition>
     </div>
   </transition>
@@ -35,13 +40,10 @@ import ResultData from "../views/Result/ResultData.vue";
 export default {
   name: "LoadingPage",
   components: { ResultData },
-  props: [
-    "newData",
-    "doneLoading",
-  ],
+  props: ["newData", "doneLoading"],
   data() {
     return {
-      clickLoading:false,
+      clickLoading: false,
     };
   },
   methods: {
@@ -118,14 +120,14 @@ export default {
     display: inline-block;
     margin-top: 30px;
   }
-  .touch-text2{
+  .touch-text2 {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
     text-align: center;
-    bottom: 8%;
+    bottom: 4%;
     width: 70px;
   }
 }
@@ -214,7 +216,7 @@ export default {
     transition: all 1.5s ease;
   }
   .fade-delay-enter-active {
-  transition: opacity 1.5s ease 1s;
+    transition: opacity 1.5s ease 1s;
   }
 
   .fade-delay-enter-from {
@@ -242,7 +244,7 @@ export default {
   .first-leave-active {
     transition: all 1s ease;
   }
-  .touch-text2{
+  .touch-text2 {
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -250,7 +252,7 @@ export default {
     right: 0;
     text-align: center;
     bottom: 8%;
-    width: 70px;
+    width: 100px;
   }
 }
 </style>
