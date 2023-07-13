@@ -44,11 +44,12 @@ export default {
           if (this.isPlaying === true) {
             this.player.play();
             console.log(name);
-
-            console.log(`환경변수 5000 : ${process.env.VUE_APP_FLASK_PORT}`);
-
-            var file = JSON.stringify({ name: name });
-
+            this.$emit("ToFirstScene");
+          } else {
+            console.log(name);
+            this.$emit("ToFirstScene");
+          }
+          var file = JSON.stringify({ name: name });
             fetch("http://"+process.env.VUE_APP_IP_ADDRESS + ":"+process.env.VUE_APP_FLASK_PORT + "/main", {
               method: "POST",
               headers: {
@@ -61,11 +62,6 @@ export default {
                 console.log(data);
                 this.$cookies.set("userid", data.id);
               });
-            this.$emit("ToFirstScene");
-          } else {
-            console.log(name);
-            this.$emit("ToFirstScene");
-          }
         } else {
           alert("이름을 입력해주세요");
         }
