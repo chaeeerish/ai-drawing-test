@@ -89,11 +89,11 @@ def set_up(id, img_str, step):
 
 def string_to_json(str):
     if str is not None and str is not '':
-        tmpsjon = json.loads(str)
-        if len(tmpsjon) == 0:
+        tmpjson = json.loads(str)
+        if len(tmpjson) == 0:
             return None
         else:
-            return tmpsjon
+            return tmpjson
     else:
         return None
 
