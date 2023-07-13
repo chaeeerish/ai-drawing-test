@@ -129,7 +129,11 @@
       </div>
     </div>
   </transition>
-  <loading-page v-if="showLoading" v-bind:newData="newData" v-bind:doneLoading="doneLoading"></loading-page>
+  <loading-page
+    v-if="showLoading"
+    v-bind:newData="newData"
+    v-bind:doneLoading="doneLoading"
+  ></loading-page>
 </template>
 
 <script>
@@ -170,13 +174,20 @@ export default {
         image: canvasContents,
         id: cookie_userid,
       });
-      fetch("http://"+process.env.VUE_APP_IP_ADDRESS + ":"+process.env.VUE_APP_FLASK_PORT + "/house", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: file,
-      })
+      fetch(
+        "http://" +
+          process.env.VUE_APP_IP_ADDRESS +
+          ":" +
+          process.env.VUE_APP_FLASK_PORT +
+          "/house",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: file,
+        }
+      )
         .then((response) => response.json())
         .then((response_json) => {
           this.data = response_json;
@@ -627,7 +638,7 @@ html {
   outline: inherit;
   height: 45px;
   margin-top: 10px;
-  -webkit-tap-highlight-color : transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 .reset-btn {
   border: none;

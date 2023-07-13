@@ -16,16 +16,14 @@
           alt="Character Image"
         />
         <p class="character-desc">
-          샷 6번 추가한 아메리카노는 공격성이 높고 기분이 안좋고 등등 샷 6번
-          추가한 아메리카노는 공격성이 높고 기분이 안좋고 등등 샷 6번 추가한
-          아메리카노는 공격성이 높고 기분이 안좋고 등등
+          {{ character_desc[character_id] }}
         </p>
 
         <button class="showDetailBtn" @click="scrollIntoView">
-          <img style="width: 80px" src="../../assets/images/next.png" />
+          <img class="nextbtn" src="../../assets/images/next.png" />
         </button>
       </div>
-      <div class="results-bottom-container" >
+      <div class="results-bottom-container">
         <div
           style="
             display: flex;
@@ -70,9 +68,9 @@
     </div>
 
     <div class="details" :class="{ open: showDetails }" ref="nextSpace">
-      <p class="graph-text"> 나의 심리 그래프</p>
+      <p class="graph-text">나의 심리 그래프</p>
       <div class="chart-wrapper">
-        <canvas id="myChart" :width="220" :height="180"></canvas>
+        <canvas id="myChart" :width="300" :height="270"></canvas>
       </div>
       <div class="first-result">
         <h1 class="first-result-title">{{ username }}님의 나무 그림</h1>
@@ -105,7 +103,8 @@
           height="140"
           frameborder="0"
           scrolling="no"
-          referrerpolicy="unsafe-url">
+          referrerpolicy="unsafe-url"
+        >
         </iframe>
       </div>
       <div class="second-result">
@@ -138,8 +137,8 @@
 
     <!-- 광고 -->
     <p class="coupang-text">
-      이 포스팅은 쿠팡 파트너스 활동의 일환으로,
-      이에 따른 일정액의 수수료를 제공받습니다.
+      이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를
+      제공받습니다.
     </p>
     <div style="padding-top: 10px">
       <iframe
@@ -148,7 +147,8 @@
         height="140"
         frameborder="0"
         scrolling="no"
-        referrerpolicy="unsafe-url">
+        referrerpolicy="unsafe-url"
+      >
       </iframe>
     </div>
 
@@ -195,7 +195,7 @@
 
 <script>
 import Chart from "chart.js/auto";
-import html2canvas from 'html2canvas';
+import html2canvas from "html2canvas";
 import AdsenseComponent from "@/AdsenseComponent.vue";
 export default {
   name: "ResultData",
@@ -227,6 +227,28 @@ export default {
         "따뜻한 숏라떼",
         "수줍은 복숭아 아이스티",
       ],
+      character_desc: [
+        "공격적인 돼지바 프라푸치노는 자신감이 넘치고, 어디서나 주목을 받는 타입이야. 누구보다 활기찬 에너지로 가득 차 있어서, 끊임없이 도전하는 모습이 인상적이지. 때로는 과감한 행동으로 주변을 놀라게 하기도 하지만, 웃음을 불러일으키기도 하지!",
+        "노른자가 두 개 띄워진 쌍화탕은 예상을 깨는 독특한 매력을 가진 특별한 존재야! 네 보이는는 모습과는 달리, 내면에는 따뜻하고 안정적인 에너지가 넘쳐나. 네 모습은 예측할 수 없으면서도 흥미로워, 주변에 활력과 웃음을 전달하는 멋진 캐릭터야!",
+        "샷 6번 추가한 공격적인 아메리카노는 사람들을 매료시키는 재주가 있어! 네 강인한 성향 뒤에는 사회적으로 능숙하게 어울리며 매력을 발휘하는 너의 모습이 있지. 어느 모임에 참여하더라도 주목받고, 즐거운 대화를 이끌어내는 네 모습 정말 멋지고 화려하단다!",
+        "자존감 높은 1리터 쌍화탕은 타고난 파워와 자신감을 가진 흥겨운 존재야! 도전을 두려워하지 않고 어디든 뛰어들며 승부욕 넘치는 자세로 인생을 즐기는 너는 진정한 열정과 자신의 가치를 자랑스럽게 표현해. 그런 너의 모습은 주변에 희망과 도약의 불을 불러일으키지!",
+        "샷 6번 추가한 따듯한 라떼는 사람들을 잘 배려하면서도 혼자 있는 시간을 소중히 여기는 사람이야. 너의 소중한 내면과 온화한 성격은 주변 사람들에게도 큰 영감을 주는 거 알지? 혼자 있는 시간과 사회적인 활동을 균형 있게 유지해 나가는 거 잊지 마! 항상 응원할게. 화이팅!",
+        "혼자 있기를 좋아하는 자몽 허니 블랙티는 혼자만의 시간을 통해 힐링을 즐기는 상큼한 맛을 가지고 있어. 닫혀있는 뚜껑은 타인으로부터 자신을 보호하려고 하는 성격을 표현해. 가끔은 뚜껑을 열고 타인과 교류하며 너의 상큼함과 부드러움을 어필해 보자!",
+        "따뜻함과 차가움을 모두 가진 아이스 아메리카노는 평온한 내면과 사회적인 능력도 모두 겸비한 멋진 캐릭터야. 자신만의 시간을 중요시하지만, 그와 더불어 타인을 배려하고 살필 줄 아는 진정한 사회인이지. 늘 잘 해내고 있지만 가끔은 너의 내면도 잊지 않고 살펴보는 게 필요하다는 걸 잊지 않았으면 좋겠어.",
+        "안정이 필요한 민트 초코 라떼는 상큼하면서도 달콤한 맛을 가지고 있어서 두터운 매니아층을 형성하고 있어. 하지만 나는 혼자 있는 시간을 통해 힐링을 하고 힘을 얻어 세상을 살아가. 가끔은 편안하게 안정을 취해도 돼!",
+        "미지근한 카모마일티는 너무 차갑지도 뜨겁지도 않은 차를 모티브로 하고 있어. 40'C의 먹기 좋은 온도가 마치 너의 온화함을 의미하지. 사람들은 너를 보며 마음이 편안해지고 안정감을 느껴. 네가 힘들 때도 다른 이들에게 희망과 위로를 전해줘서 고마워.",
+        "유니콘 프라푸치노는 우울한 순간에도 자신감과 밝은 에너지를 전해주는 캐릭터야. 너의 넘치는 에너지는 화려한 색감의 프라푸치노를 모티브로 하여 그려졌어. 다채로운 색상의 음료가 마치 네가 자신감이 넘치는 사람이라는 것을 의미해!",
+        "얼음이 녹아버린 아샷추는 마냥 부정적이지 않아. 어울리지 않을 것 같은 아이스티와 에스프레소의 만남은 네가 다른 사람들과 잘 지내는 성격임을 의미해. 얼음이 녹아버린 독특한 모습을 가지고 있지만, 너의 개성은 사람들에게 큰 인기를 끌고 있어!",
+        "톡 쏘는 블루레몬에이드는 약간의 우울함이 있지만 자존감이 높은 캐릭터야. 파란색은 우울함을 의미하지만 에이드의 강한 탄산은 너의 높은 자존감을 의미해. 너의 긍정적인 마인드는 앞으로도 스스로를 사랑하고 받아들이도록 도와줄 거야!",
+        "나는 휘핑 가득 올라간 민트 초코 라떼야. 머그잔에 담긴 나는 정말 달콤하고 시원한 맛이지. 사실 나는 많은 사람들과 섞이기는 조금 어려워. 그렇지만 내가 온화한 성격을 가지고 있어서, 나와 함께하면 편안하고 따뜻한 분위기를 느낄 수 있을 거야.",
+        "펄 추가 아이스 아메리카노는 사람들이 다소 시도하지 않는 카페 메뉴일지라도, 자신감 넘치는 성격으로 상대방을 매료시킬 수 있어. 나와 함께하면 상대방은 특별함과 독보적인 매력을 가진 존재로 느껴질 거야. 함께 있는 동안, 상대방은 자신을 믿고 세상을 정복할 수 있을 거라고 확신해!",
+        "행복한 민트 초코 프라푸치노는 밝은 웃음으로 상대방에게 다가가며, 함께 있는 동안 행복한 분위기를 만들 수 있어. 상대방은 나와 함께하는 시간에 행복을 느끼고, 나랑 어울릴 때 자유로움을 느낄 수 있을 거야. 나와 행복을 전달하면서 함께 특별한 경험을 만들어나가자!",
+        "혼자가 된 제주 유기농 감귤 주스는 혼자일 때 편안함과 자유로움을 느끼는 편이지. 친구를 찾는 전단지를 들고 있지만, 외로움을 느끼는 건 아냐. 그건 내가 더 나은 나를 찾고 성장하고자 하는 욕망을 담은 거야. 나는 따뜻한 분위기를 만들어주면서, 상대방에게 높은 자존감을 전달해 줄 거야.",
+        "거품 뺀 카푸치노는 자존감은 낮지만 온화하고 친근한 성격의 소유자야. 사람들은 카푸치노처럼 항상 따뜻하고 상냥한 미소를 짓는 너와 대화하며 안정감과 편안함을 느껴. 사람들에게 긍정적인 에너지를 주는 너를 항상 응원해! ",
+        "초코 쉐이크가 되고 싶은 밀크 쉐이크는 자신의 부족한 면을 채우기 위해 초코 쉐이크로 변하고자 하는 너의 열망을 의미해. 너만의 독특함을 내세우고 자신의 대한 믿음을 키우면 언젠가 너만의 꿈을 이룰 수 있을 거야!",
+        "따듯한 숏라떼는 자존감이 낮을 수 있지만 언제나 미소를 잃지 않는 캐릭터야 . 자존감이 낮다고 해서 행복을 느끼지 못하는 건 아니야. 작은 것들에도 행복을 느끼고 언제나 너 자신을 소중히 여기는 너는 어쩌면 이미 성공한 인생을 살고 있을지 몰라!",
+        "수줍은 복숭아 아이스티는 자존감이 낮지만 주변 사람들에게 항상 따뜻한 관심과 도움을 주는 능력을 갖추고 있어. 초면에는 수줍음이 많아 보일 수 있지만 친해지고나면 누구보다 활발하고 즐거운 모습을 보여줄 거야!",
+      ],
       username: null,
       tree: null,
       home: null,
@@ -236,27 +258,26 @@ export default {
   },
   methods: {
     captureScreen() {
-    const elements = document.getElementsByClassName('results-main-screen');
-    const element = elements[0];
+      const elements = document.getElementsByClassName("results-main-screen");
+      const element = elements[0];
 
-    html2canvas(element).then((canvas) => {
-      const image = canvas.toDataURL('image/png');
-      this.saveToPhotoAlbum(image);
-    });
+      html2canvas(element).then((canvas) => {
+        const image = canvas.toDataURL("image/png");
+        this.saveToPhotoAlbum(image);
+      });
     },
     saveToPhotoAlbum(imageData) {
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = imageData;
-      link.download = '결과 화면.png';
-      link.addEventListener('click', () => {
-        alert('결과 화면을 저장합니다.');
+      link.download = "결과 화면.png";
+      link.addEventListener("click", () => {
+        alert("결과 화면을 저장합니다.");
       });
       link.click();
     },
-    scrollIntoView(){
-      this.$refs.nextSpace.scrollIntoView({behavior:"smooth"});
-    }
-    ,
+    scrollIntoView() {
+      this.$refs.nextSpace.scrollIntoView({ behavior: "smooth" });
+    },
     // createChart() {
     //   const ctx = document.getElementById("myChart");
     //   const myChart = new Chart(ctx, {
@@ -504,6 +525,9 @@ export default {
     justify-content: center;
     gap: 15px;
   }
+  .nextbtn {
+    width: 80px;
+  }
   .logo-text {
     color: #fff;
     font-family: korFont3;
@@ -513,7 +537,7 @@ export default {
     width: 50px;
   }
   .details {
-    background: linear-gradient(180deg, #fbf0ee 0%, #ffffff 100%);
+    background-color: #fff;
   }
   .userName {
     font-size: 21px;
@@ -527,7 +551,7 @@ export default {
     width: 300px;
     text-align: left;
     margin-bottom: 20px;
-    line-height: 1.2;
+    line-height: 1.5;
   }
   .first-result {
     padding-top: 50px;
@@ -616,7 +640,7 @@ export default {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 20px;
+    padding-top: 30px;
     padding-bottom: 30px;
   }
   #myChart {
@@ -624,9 +648,6 @@ export default {
     height: 160px;
     display: block;
     box-sizing: content-box;
-    border-style: solid;
-    border-width: 1.5px;
-    border-color: rgb(7, 7, 29);
   }
   .showDetailBtn {
     background-color: transparent;
@@ -635,7 +656,7 @@ export default {
     cursor: pointer;
     margin-bottom: 35px;
     font-family: korFont2;
-    -webkit-tap-highlight-color : transparent !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
   .characterName {
     font-size: 17px;
@@ -685,24 +706,24 @@ export default {
     color: #48484885;
   }
   iframe {
-  width: 100%;
+    width: 100%;
   }
   .coupang-text {
-  font-size: 8px;
-  text-align: center;
-  color: gray;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 8px;
+    text-align: center;
+    color: gray;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .graph-text{
+  .graph-text {
     padding-top: 30px;
-    padding-bottom: 15px;
+    font-size: 20px;
     font-family: korFont2;
     font-weight: 600;
   }
-  .chart-wrapper{
+  .chart-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -712,35 +733,95 @@ export default {
 /* Styles for iPads */
 @media only screen and (min-width: 768px) and (max-width: 1400px) {
   .results-data {
+    margin-top: 0px;
     display: inline-block;
     font-family: korFont2;
     background-color: #ffffff;
-    background-size: cover;
     background-position: center center;
     color: black;
     font-family: korFont1;
     width: 100%;
     height: auto !important;
   }
-  .userName {
-    font-size: 40px;
-    margin-top: 10%;
+  .results-main-screen {
+  }
+  .mainLogo {
+    width: 400px;
+  }
+  .results-top-container {
+    background-image: url("../../assets/images/paintBackground.png");
+    height: calc(var(--vh, 1vh) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .results-main-content {
+    background-color: #fff;
+    height: calc(var(--vh, 1vh) * 68);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .results-bottom-container {
+    background-image: url("../../assets/images/paintBackground.png");
+    height: calc(var(--vh, 1vh) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .logo-text {
+    color: #fff;
     font-family: korFont3;
-    color: #0000008a;
+    font-size: 28px;
+  }
+  .socialmedia-icons {
+    width: 70px;
+  }
+  .details {
+    background-color: #fff;
+  }
+  .userName {
+    font-size: 30px;
+    font-family: korFont3;
+    color: #424242;
+    margin-top: 20px;
+  }
+  .character-desc {
+    font-family: korFont2;
+    font-size: 23px;
+    width: 550px;
+    text-align: left;
+    margin-bottom: 20px;
+    line-height: 1.6;
   }
   .first-result {
-    margin-top: 50px;
+    padding-top: 50px;
     border-bottom: 1px solid #ccc;
+  }
+  .copyright-text {
+    font-family: korFont2;
+    font-size: 22px;
+    color: #fff;
+  }
+  .nextbtn {
+    width: 120px;
   }
 
   .first-result-title {
-    font-size: 30px;
+    font-size: 20px;
+    margin-top: 20px;
     margin-bottom: 10px;
     font-family: korFont3;
+    color: #0000008a;
   }
   .first-image {
     margin-top: 25px;
-    width: 350px;
+    width: 250px;
   }
   .first-result-text {
     width: 80%;
@@ -751,27 +832,27 @@ export default {
     font-family: korFont2;
     width: 80%;
     display: inline-block;
-    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
   .treeAttributes {
     font-weight: 1000;
-    font-size: 30px;
-    margin-bottom: 15px;
+    font-size: 22px;
+    padding-bottom: 22px;
   }
   .treefeatures {
-    font-size: 25px;
-    margin-bottom: 8px;
+    font-size: 18px;
+    padding-bottom: 13px;
   }
   .treevalues {
-    font-size: 25px;
-    margin-bottom: 15px;
-    line-height: 1.2;
+    font-size: 15px;
+    padding-bottom: 15px;
+    line-height: 1.8;
   }
   .share-btn {
     font-family: korFont2;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
     font-size: 20px;
-    background-color: #fffaf8;
+    background-color: #fdd5cc;
     color: black;
     padding: 10px 20px;
     text-align: center;
@@ -783,45 +864,39 @@ export default {
     border-radius: 15px;
   }
   .share-btns {
-    margin-bottom: 15px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 25px;
+    gap: 15px;
   }
   .kakaotalk-btn {
-    height: 40px;
+    height: 30px;
   }
   .copylink-btn {
-    height: 70px;
+    height: 30px;
   }
   .clipboard-copy {
     display: inline-block;
+    padding-left: 5px;
   }
   .clipboard-img {
-    width: 70px;
+    width: 30px;
   }
   .characterImage {
-    width: 230px;
+    width: 310px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
   #myChart {
-    width: 320px;
+    width: 160px;
+    height: 160px;
     display: block;
     box-sizing: content-box;
-    height: 160px;
-    border-style: solid;
-    border-width: 1.5px;
-    border-color: rgb(7, 7, 29);
-  }
-  .chart-wrapper{
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
   .showDetailBtn {
     background-color: transparent;
@@ -830,59 +905,77 @@ export default {
     cursor: pointer;
     margin-bottom: 35px;
     font-family: korFont2;
-    -webkit-tap-highlight-color : transparent !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
   .characterName {
-    font-size: 30px;
+    font-size: 27px;
     font-family: korFont2;
     font-weight: 1000;
-    margin-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 0px;
     border-radius: 10px;
     display: inline-block;
-    max-width: 800px;
+    max-width: 340px;
     word-wrap: break-word;
+    color: #2f2f2f;
   }
   .title-text-result {
     font-family: korFont1;
-    font-size: 35px;
+    font-size: 29px;
   }
   .result-contact {
     font-family: korFont2;
-    font-size: 20px;
   }
   .result-copyright {
     font-family: korFont2;
-    margin-top: 10px;
-    font-size: 20px;
+    margin-top: 8px;
   }
   .second-result {
-    margin-bottom: 120px;
+    margin-bottom: 100px;
   }
   .shareBtn {
-    background-color: transparent;
-    padding: 10px 17px;
-    color: #424242;
-    border: 1px solid #c7c7c7;
+    background-color: #e4e4e4;
+    padding: 7px 14px;
+    color: #4d4d4d;
+    border: 1px solid #484848;
     cursor: pointer;
     border-radius: 20px;
     font-family: korFont2;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 1000;
   }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    font-family: korFont2;
+    font-size: 13px;
+    color: #48484885;
+  }
   iframe {
-  width: 100%;
+    width: 100%;
   }
   .coupang-text {
-  font-size: 12px;
-  text-align: center;
-  color: gray;
-  margin: 0;
+    font-size: 8px;
+    text-align: center;
+    color: gray;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-  .graph-text{
+  .graph-text {
     padding-top: 30px;
-    padding-bottom: 15px;
+    font-size: 20px;
     font-family: korFont2;
     font-weight: 600;
+  }
+  .chart-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
