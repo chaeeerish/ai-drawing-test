@@ -70,9 +70,11 @@ def detection_house(binaryimg):
     
     detection_list = []
  
+    roof_score_list = []
     roof_width_list = [] 
     roof_height_list = []
     
+    wall_score_list = []
     wall_list = []
     wall_width_list=[]
     wall_height_list=[]
@@ -81,9 +83,10 @@ def detection_house(binaryimg):
     window_width_list = []
     window_height_list = []
 
+    door_score_list = []
     door_list = []
-    door_width_list=[]
-    door_height_list=[]
+    door_width_list = []
+    door_height_list = []
     
     # 1001: 지붕
     # 1002: 벽
@@ -104,6 +107,7 @@ def detection_house(binaryimg):
         if labels_to_names[class_id] == '1001': # 지붕
           roof_width = right - left
           roof_height = bottom - top
+          roof_score_list.append(score)
           roof_width_list.append(roof_width)
           roof_height_list.append(roof_height)
 
@@ -112,6 +116,7 @@ def detection_house(binaryimg):
           wall_right = right
           wall_height = bottom - top
           wall_width = right - left
+          wall_score_list.append(score)
           wall_width_list.append(wall_width)
           wall_height_list.append(wall_height)
           wall_list.append([wall_left, wall_right, wall_height, wall_width])
@@ -128,25 +133,45 @@ def detection_house(binaryimg):
           door_right = right
           door_height = bottom - top
           door_width = right - left
+          door_score_list.append(score)
           door_list.append([door_left, door_right, door_height, door_width])
           door_width_list.append(door_width)
           door_height_list.append(door_height)
         
         detection_list.append(labels_to_names[class_id])
-
         caption = "{}: {:.4f}".format(labels_to_names[class_id], score)
 
     # 1001: 지붕 Roof
     # 지붕 크기
     if detection_list.count('1001') == 0: # 지붕 없다
        roof_result_list.append(0)
-    elif detection_list.count('1001') == 1 and detection_list.count('1002') == 1: # 지붕 벽 각각 하나
-       if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1: # 지붕이 있는데 크다.
-          roof_result_list.append(1)
-    # 지붕이 2개 이상이고 벽이 1개일 때 
-    elif (detection_list.count('1001') >= 2 and detection_list.count('1002') >= 1): 
-        if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1:
-           roof_result_list.append(1)
+    else: # 지붕 있다
+       if detection_list.count('1002') >= 1: # 벽 있다
+        wall_score_max_index = wall_score_list.index(max(wall_score_list))
+        wall_width = wall_width_list[wall_score_max_index]
+        wall_height = wall_height_list[wall_score_max_index]
+
+        if detection_list.count('1001') == 1: # 지붕 벽 각각 하나
+          roof_width = roof_width_list[0]
+          roof_height = roof_height_list[0]
+          
+          if roof_size(roof_width, wall_width, roof_height, wall_height) == 1 and 1 not in roof_result_list:
+            roof_result_list.append(1)
+          
+        elif detection_list.count('1001') >= 2:
+          # max size
+          roof_width = max(roof_width_list)
+          roof_height = max(roof_height_list)
+          if roof_size(roof_width, wall_width, roof_height, wall_height) == 1 and 1 not in roof_result_list:
+            roof_result_list.append(1)
+
+          # score
+          roof_score_max_index = roof_score_list.index(max(roof_score_list))
+          roof_width = roof_width_list[roof_score_max_index]
+          roof_height = roof_height_list[roof_score_max_index]
+          
+          if roof_size(roof_width, wall_width, roof_height, wall_height) == 1 and 1 not in roof_result_list:
+            roof_result_list.append(1)
 
     # 1003: 창문 Window
     # 창문 개수
@@ -175,19 +200,19 @@ def detection_house(binaryimg):
         if door_edge_result == 1 or door_edge_result == 2:
             door_result_list.append(5) # 가장자리 함수
 
-    # 넓이로 해보기
-    # 문이 한 개고 벽이 한 개이면
+    # 문 크기
     if detection_list.count('1004') >= 1 and detection_list.count('1002') >= 1:
-      door_max_area = max(door_width_list) * max(door_height_list)
-      wall_max_area = max(wall_width_list) * max(wall_height_list)
-      if door_max_area > wall_max_area * 0.7:
-         door_result_list.append(2) # 매우 큰
-      elif door_max_area > wall_max_area * 0.4:
-         door_result_list.append(1) # 큰 
-      elif door_max_area < wall_max_area * 0.12:
-         door_result_list.append(4) # 매우 작은
-      elif max(door_height_list) < max(wall_height_list) * 0.4: 
-         door_result_list.append(3) # 낮은
+      wall_score_max_index = wall_score_list.index(max(wall_score_list))
+      wall_width = wall_width_list[wall_score_max_index]
+      wall_height = wall_height_list[wall_score_max_index]
+
+      door_score_max_index = door_score_list.index(max(door_score_list))
+      door_width = door_width_list[door_score_max_index]
+      door_height = door_height_list[door_score_max_index]
+
+      door_size_result = door_size(door_height, door_width, wall_height, wall_width)
+      if door_size_result != -1:
+        door_result_list.append(door_size_result)
 
     return {
         "roof_result": roof_result_list,
@@ -200,13 +225,13 @@ def roof_size(roof_width, wall_width, roof_height, wall_height):
   roof_size = 0
   if int(roof_width) > int(wall_width) * 1.9:
     roof_size = 1 # 크다
-  if int(roof_height) > int(wall_height) * 1.3:
+  if int(roof_height) > int(wall_height) * 2:
     roof_size = 1
   return roof_size
 
 # 문이 큰가? 함수
 def door_size(door_height, door_width, wall_height, wall_width):
-  door_size = 0 # 보통
+  door_size = -1 # 보통
   if door_height > wall_height * (4/5):
     if door_width > wall_width * (3/5):
       door_size = 2 # 넓은
