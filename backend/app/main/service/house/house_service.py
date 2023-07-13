@@ -1,8 +1,10 @@
 # standard library imports
+
 # Third party imports
 import tensorflow as tf
 import numpy as np
 import cv2
+
 # local application imports
 from main.model.domain.user.user_model import *
 from main.model.repository.user.user_repository import *
@@ -177,15 +179,15 @@ def detection_house(binaryimg):
     # 문이 한 개고 벽이 한 개이면
     if detection_list.count('1004') >= 1 and detection_list.count('1002') >= 1:
       door_max_area = max(door_width_list) * max(door_height_list)
-      wall_max_area = max(wall_width_list) * max(wall_height_list))
+      wall_max_area = max(wall_width_list) * max(wall_height_list)
       if door_max_area > wall_max_area * 0.7:
          door_result_list.append(2) # 매우 큰
       elif door_max_area > wall_max_area * 0.4:
          door_result_list.append(1) # 큰 
       elif door_max_area < wall_max_area * 0.12:
          door_result_list.append(4) # 매우 작은
-      elif max(door_height_list) < max(wall_height_list) * 0.4:
-         door_result_list.append(3)
+      elif max(door_height_list) < max(wall_height_list) * 0.4: 
+         door_result_list.append(3) # 낮은
 
     return {
         "roof_result": roof_result_list,
@@ -196,45 +198,44 @@ def detection_house(binaryimg):
 # 지붕이 큰가? 함수
 def roof_size(roof_width, wall_width, roof_height, wall_height):
   roof_size = 0
-  if int(roof_width) > int(wall_width)*1.9:
+  if int(roof_width) > int(wall_width) * 1.9:
     roof_size = 1 # 크다
-  if int(roof_height) > int(wall_height)*1.3:
+  if int(roof_height) > int(wall_height) * 1.3:
     roof_size = 1
   return roof_size
 
 # 문이 큰가? 함수
 def door_size(door_height, door_width, wall_height, wall_width):
   door_size = 0 # 보통
-  if door_height > wall_height*(4/5):
-    if door_width > wall_width*(3/5):
+  if door_height > wall_height * (4/5):
+    if door_width > wall_width * (3/5):
       door_size = 2 # 넓은
     else:
       door_size = 1 # 큰 (길이)
-  elif door_height < wall_height*(1/5):
-    if door_width < wall_width*(1/4):
+  elif door_height < wall_height * (1/5):
+    if door_width < wall_width * (1/4):
       door_size = 4 # 작은
     else:
       door_size = 3 # 낮은 (길이)
   return door_size
 
-
 # 문 가장자리 함수
 def door_edge(door_width, wall_width, door_left, door_right, wall_left, wall_right):
   door_edge = 0 # 치우치지 않은
-  if door_left <= wall_left+(wall_width*(1/4)):
-    if door_right <=wall_left+(wall_width*(1/2)):
+  if door_left <= wall_left + (wall_width * (1/4)):
+    if door_right <=wall_left + (wall_width * (1/2)):
       door_edge = 1 # 왼쪽 가장자리로 치우친
-  elif door_left >= wall_left+(wall_width / 2):
-    if door_right >= wall_right - (wall_width/4):
+  elif door_left >= wall_left + (wall_width / 2):
+    if door_right >= wall_right - (wall_width / 4):
       door_edge = 2 # 오른쪽 가장자리로 치우친
   return door_edge
 
 # 창문 크기 함수
 def window_size(window_height, window_width, wall_height, wall_width):
   window_size = 0 # 보통
-  if window_width < wall_width/6:
+  if window_width < wall_width / 6:
     window_size = 1 # 좁은. 작다.
-  elif window_width >= wall_width/2:
-    if window_height >= wall_height*0.8:
+  elif window_width >= wall_width / 2:
+    if window_height >= wall_height * 0.8:
       window_size = 2 # 큰 창문 (통유리창 정도)
   return window_size
