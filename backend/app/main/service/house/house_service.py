@@ -59,7 +59,7 @@ def detection_house(binaryimg):
     result = model(img_tensor)
     result = {key:value.numpy() for key,value in result.items()}
     
-    # 임계값 지정. 50% 이상일 때만 바운딩박스 그림
+    # 임계값 지정. 이상일 때만 바운딩박스 그림
     SCORE_THRESHOLD = 0.7
     OBJECT_DEFAULT_COUNT = 25 #클래스 개수
 
@@ -71,9 +71,9 @@ def detection_house(binaryimg):
     roof_width_list = [] 
     roof_height_list = []
     
-    wall_score = -1
-    wall_max_width = 0
-    wall_max_height = 0
+    wall_list = []
+    wall_width_list=[]
+    wall_height_list=[]
 
     window_list = [] 
     window_width_list = []
@@ -110,10 +110,10 @@ def detection_house(binaryimg):
           wall_right = right
           wall_height = bottom - top
           wall_width = right - left
-          if wall_score > score:
-            wall_max_width = wall_width
-            wall_max_height = wall_height
-
+          wall_width_list.append(wall_width)
+          wall_height_list.append(wall_height)
+          wall_list.append([wall_left, wall_right, wall_height, wall_width])
+        
         elif labels_to_names[class_id] == '1003': # 창문
           window_height = bottom - top
           window_width = right - left
@@ -139,11 +139,11 @@ def detection_house(binaryimg):
     if detection_list.count('1001') == 0: # 지붕 없다
        roof_result_list.append(0)
     elif detection_list.count('1001') == 1 and detection_list.count('1002') == 1: # 지붕 벽 각각 하나
-       if roof_size(max(roof_width_list), wall_max_width, max(roof_height_list), wall_max_height) == 1: # 지붕이 있는데 크다.
+       if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1: # 지붕이 있는데 크다.
           roof_result_list.append(1)
     # 지붕이 2개 이상이고 벽이 1개일 때 
     elif (detection_list.count('1001') >= 2 and detection_list.count('1002') >= 1): 
-        if roof_size(max(roof_width_list), wall_max_width, max(roof_height_list), wall_max_height) == 1:
+        if roof_size(max(roof_width_list), max(wall_width_list), max(roof_height_list), max(wall_height_list)) == 1:
            roof_result_list.append(1)
 
     # 1003: 창문 Window
@@ -156,7 +156,7 @@ def detection_house(binaryimg):
     # 창문 크기
     # (창문과 벽이 한 개라도 있으면)
     if detection_list.count('1003') >= 1 and detection_list.count('1002') >= 1:
-        window_size_result = window_size(max(window_height_list), max(window_width_list), wall_max_height, wall_max_width)
+        window_size_result = window_size(max(window_height_list), max(window_width_list), max(wall_height_list), max(wall_width_list))
         if window_size_result == 1: # 작다
            window_result_list.append(3)
         elif window_size_result == 2: # 크다
@@ -177,14 +177,14 @@ def detection_house(binaryimg):
     # 문이 한 개고 벽이 한 개이면
     if detection_list.count('1004') >= 1 and detection_list.count('1002') >= 1:
       door_max_area = max(door_width_list) * max(door_height_list)
-      wall_max_area = wall_max_width * wall_max_height
+      wall_max_area = max(wall_width_list) * max(wall_height_list))
       if door_max_area > wall_max_area * 0.7:
          door_result_list.append(2) # 매우 큰
       elif door_max_area > wall_max_area * 0.4:
          door_result_list.append(1) # 큰 
       elif door_max_area < wall_max_area * 0.12:
          door_result_list.append(4) # 매우 작은
-      elif max(door_height_list) < wall_max_height * 0.4:
+      elif max(door_height_list) < max(wall_height_list) * 0.4:
          door_result_list.append(3)
 
     return {
