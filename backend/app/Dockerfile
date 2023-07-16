@@ -13,6 +13,7 @@ RUN pip install --upgrade pip==23.1.2
 RUN pip install -r requirements.txt 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 RUN pip3 install tensorflow
+RUN pip install gunicorn
 
 # Nvidia Docker 저장소 추가
 RUN distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \

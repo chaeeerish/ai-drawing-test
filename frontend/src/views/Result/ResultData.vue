@@ -728,6 +728,17 @@ export default {
     justify-content: center;
     align-items: center;
   }
+  .graph-text{
+    padding-top: 30px;
+    padding-bottom: 15px;
+    font-family: korFont2;
+    font-weight: 600;
+  }
+  .chart-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 /* Styles for iPads */
@@ -976,6 +987,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .graph-text{
+    padding-top: 30px;
+    padding-bottom: 15px;
+    font-family: korFont2;
+    font-weight: 600;
   }
 }
 </style>

@@ -1,10 +1,15 @@
 # standard library imports
 import json
+import os
+from datetime import datetime
+
 # Third party imports
 import tensorflow as tf
 import numpy as np
 import cv2
 import numpy as np
+import requests
+
 # local application imports
 from main.config.init_model import model_dict
 
@@ -83,3 +88,114 @@ def classification_multi(model_file_name, binary_img, class_li, SIZE, COUNT):
         if proba[0][sorted_categories[i]] > SCORE_THRESHOLD:
             result_list.append(class_li[sorted_categories[i]])
     return result_list
+
+def send_slack_notification(error, request):
+    SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL')
+
+    # 오류 유형과 메시지
+    error_type = type(error).__name__
+    error_message = str(error)
+
+    # 요청 정보
+    request_info = f'*Request*: `{request.method} {request.url}`'
+
+    # 헤더 정보
+    headers = dict(request.headers)
+    headers_info = f'*Headers*: {headers}'
+
+    # 파라미터 정보
+    params = request.args
+    params_info = f'*Parameters*: {params}'
+
+    # 현재 시간
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Slack 메시지 JSON
+    slack_message_json = {
+        "attachments": [
+            {
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*AI-DRAWING-TEST API ERROR 📌*"
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "ai-drawing-test 사이트로 이동하기"
+                        },
+                        "accessory": {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Click Me"
+                            },
+                            "value": "click_me_123",
+                            "url": "http://ai-drawing-test.com",
+                            "action_id": "button-action"
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "ec2로 이동하기"
+                        },
+                        "accessory": {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Click Me"
+                            },
+                            "value": "click_me_123",
+                            "url": "https://ap-northeast-2.console.aws.amazon.com/ec2/home?region=ap-northeast-2#Instances:",
+                            "action_id": "button-action"
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*ERROR TYPE 📚*\n" + error_type
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "*ERROR MESSAGE 📋*\n" + error_message
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": request_info
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": headers_info
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": params_info
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+
+    response = requests.post(SLACK_WEBHOOK_URL, data=json.dumps(slack_message_json))
+    if response.status_code != 200:
+        print('Slack 알림 전송 실패', '/n', response.status_code, '\n', response.text)
