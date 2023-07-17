@@ -1,6 +1,7 @@
 <template>
   <div v-if="showPaint" class="painting-page">
     <p class="sub-text-paint">※ 집을 그려주세요!</p>
+    <img class="drawingGuide" @click="showDrawingGuide" src="../../assets/images/drawingGuide.png"/>
     <div class="painting-content">
       <div id="canvas_Wrapper">
         <canvas ref="jsCanvas" id="jsCanvas" class="canvas"></canvas>
@@ -117,6 +118,34 @@
   </div>
 
   <transition name="zoom">
+    <div v-show="showGuide" class="overlay">
+      <div v-show="showGuide" class="modal-guide-container">
+        <div class="modal-content">
+          <img class="exit-btn" @click="hideDrawingGuide" src="../../assets/images/exitButton.png"/>
+          <p>
+            높은 정확성을 원한다면? <br>
+            아래를 참조해서 그려주세요! <br>
+            집을 그렸을 때, 모델이 탐지하는 속성<br>
+             • 집의 종류와 모양<br>
+             • 지붕의 크기와 유무<br>
+             • 문의 크기 및 위치와 유무<br>
+             • 창문의 크기와 유무 및 개수<br>
+            </p>
+            <br>
+            <p class="guide-text">
+            그림은 테두리 선의 형태가 정확성이 높습니다<br>
+            색칠은 빼곡하게 채워넣어야 정확성이 높습니다<br>
+            </p>
+
+        </div>
+        <div @click="hideDrawingGuide" class="modal-btn-guide">
+          <button class="modal-btn">확인</button>
+        </div>
+      </div>
+    </div>
+  </transition>
+
+  <transition name="zoom">
     <div v-show="showModal" class="overlay">
       <div v-show="showModal" class="modal-container">
         <div class="modal-content">
@@ -155,11 +184,18 @@ export default {
       showPaint: true,
       showLoading: false,
       doneLoading: false,
+      showGuide: false,
       mode: null,
       newData: "",
     };
   },
   methods: {
+    showDrawingGuide() {
+      this.showGuide = true;
+    },
+    hideDrawingGuide() {
+      this.showGuide = false;
+    },
     toggleModal() {
       this.showModal = !this.showModal;
     }, //확인 모달 창
@@ -657,6 +693,51 @@ html {
   left: 0;
   width: 100vw;
   height: 100%;
+}
+.drawingGuide {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: scale(0.7);
+}
+.exit-btn {
+  width:10px;
+  height:10px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+.modal-guide-container {
+  display: inline-block;
+  position: fixed;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: left;
+  color: #000;
+  font-family: korFont2;
+  top: 15%;
+  padding-left:10px;
+  padding-top:10px;
+  padding-right:10px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.guide-text{
+  font-size:90%;
+}
+.modal-btn-guide {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  -webkit-tap-highlight-color : transparent !important;
 }
 .modal-container {
   display: inline-block;

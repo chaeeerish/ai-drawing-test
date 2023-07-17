@@ -688,7 +688,7 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 140px;
+    width: 110px;
     display: block;
     margin-left: auto;
     margin-right: auto;
