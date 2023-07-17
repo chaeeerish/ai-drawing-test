@@ -33,7 +33,7 @@
             gap: 5px;
           "
         >
-          <a target="_blank" href="https://www.instagram.com/ai.drawingtest/">
+          <a target="_blank" href="https://www.instagram.com/ai.drawingtest/" id="instagram-link">
             <img
               class="socialmedia-icons"
               src="../../assets/images/instagram.png"
@@ -59,7 +59,7 @@
           <img
             class="socialmedia-icons"
             src="../../assets/images/capture.png"
-            alt="링크 공유 보내기 버튼"
+            alt="캡쳐 버튼"
             @click="captureScreen"
           />
         </div>
@@ -68,6 +68,7 @@
     </div>
 
     <div class="details" :class="{ open: showDetails }" ref="nextSpace">
+      <div ref="adContainer1"></div>
       <p class="graph-text">나의 심리 그래프</p>
       <div class="chart-wrapper">
         <canvas id="myChart" :width="300" :height="270"></canvas>
@@ -151,12 +152,15 @@
       >
       </iframe>
     </div>
-
-    <!-- 광고 -->
+    <!-- 카카오 배너 광고 2 -->
+    <div ref="adContainer2"></div>
+    <!-- 구글 광고 -->
     <div style="padding-top: 10px">
       <p>이곳에 광고가 표시됩니다.</p>
       <AdsenseComponent></AdsenseComponent>
     </div>
+
+
 
     <div class="footer">
       <img style="width: 60px" src="../../assets/images/icon5.png" />
@@ -257,6 +261,18 @@ export default {
     };
   },
   methods: {
+    trackInstagramLink() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Instagram Link',
+      });
+    },
+    trackKakaoLink() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Kakao Link',
+      });
+    },
+    trackCopyUrlButtonClick() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Copy Button',
+      });
+    },
+    trackDownloadButtonClick() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Download Button',
+      });
+    },
     captureScreen() {
       const elements = document.getElementsByClassName("results-main-screen");
       const element = elements[0];
@@ -265,6 +281,8 @@ export default {
         const image = canvas.toDataURL("image/png");
         this.saveToPhotoAlbum(image);
       });
+      // gtag 추적
+      this.trackDownloadButtonClick();
     },
     saveToPhotoAlbum(imageData) {
       const link = document.createElement("a");
@@ -383,11 +401,15 @@ export default {
           },
         ],
       });
+      // gtag 추적
+      this.trackKakaoLink();
     },
     urlCopy() {
       this.$copyText("http://ai-drawing-test.com/").then(() => {
         alert("클립보드에 성공적으로 복사되었습니다.");
       });
+      // gtag 추적
+      this.trackCopyUrlButtonClick();
     },
   },
   created() {
@@ -398,10 +420,40 @@ export default {
     this.character_id = this.newData.character;
   },
   mounted() {
+    const adCode1 = `<ins class="kakao_ad_area" style="display:none;"
+                    data-ad-unit="DAN-S0oPQzvHJoKMYkWA"
+                    data-ad-width="320"
+                    data-ad-height="50"></ins>`;
+
+    const adElement1 = document.createElement('div');
+    adElement1.innerHTML = adCode1;
+
+    this.$refs.adContainer1.appendChild(adElement1);
+
+    const adCode2 = `<ins class="kakao_ad_area" style="display:none;"
+                    data-ad-unit = "DAN-QXgJxrirtoLIIXR1"
+                    data-ad-width = "320"
+                    data-ad-height = "100"></ins>`;
+
+    const adElement2 = document.createElement('div');
+    adElement2.innerHTML = adCode2;
+
+    this.$refs.adContainer2.appendChild(adElement2);
+
+
     const script = document.createElement("script");
     script.src = "//t1.daumcdn.net/kas/static/ba.min.js";
     script.async = true;
     document.head.appendChild(script);
+    // 카카오 광고
+
+    // 인스타그램 링크 클릭 수 // gtag 추적
+    const instagramLink = document.getElementById('instagram-link');
+    if (instagramLink) {
+      instagramLink.addEventListener('click', this.trackInstagramLink);
+    }
+
+
 
     console.log("Component mounted.");
     const ctx = document.getElementById("myChart");

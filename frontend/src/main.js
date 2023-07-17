@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import VueCookies from "vue-cookies";
 import VueClipboard from "vue-clipboard2";
+import VueGtag from 'vue-gtag'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
@@ -22,6 +23,10 @@ createApp(App)
   .use(router)
   .use(VueClipboard)
   .component("font-awesome-icon", FontAwesomeIcon)
+  .use(VueGtag, {
+    config: {
+        id: 'G-S219B0NVWC'  // Google Analytics의 Tracking ID
+    }})
   .mount("#app");
 
 //쿠키를 사용한다.
