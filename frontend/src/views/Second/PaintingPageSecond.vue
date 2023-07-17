@@ -1,7 +1,11 @@
 <template>
   <div v-if="showPaint" class="painting-page">
     <p class="sub-text-paint">※ 집을 그려주세요!</p>
-    <img class="drawingGuide" @click="showDrawingGuide" src="../../assets/images/drawingGuide.png"/>
+    <img
+      class="drawingGuide"
+      @click="showDrawingGuide"
+      src="../../assets/images/drawingGuide.png"
+    />
     <div class="painting-content">
       <div id="canvas_Wrapper">
         <canvas ref="jsCanvas" id="jsCanvas" class="canvas"></canvas>
@@ -121,22 +125,28 @@
     <div v-show="showGuide" class="overlay">
       <div v-show="showGuide" class="modal-guide-container">
         <div class="modal-content">
-          <img class="exit-btn" @click="hideDrawingGuide" src="../../assets/images/exitButton.png"/>
-          <p>
-            높은 정확성을 원한다면? <br>
-            아래를 참조해서 그려주세요! <br>
-            집을 그렸을 때, 모델이 탐지하는 속성<br>
-             • 집의 종류와 모양<br>
-             • 지붕의 크기와 유무<br>
-             • 문의 크기 및 위치와 유무<br>
-             • 창문의 크기와 유무 및 개수<br>
-            </p>
-            <br>
-            <p class="guide-text">
-            그림은 테두리 선의 형태가 정확성이 높습니다<br>
-            색칠은 빼곡하게 채워넣어야 정확성이 높습니다<br>
+          <img
+            class="exit-btn"
+            @click="hideDrawingGuide"
+            src="../../assets/images/exitButton.png"
+          />
+          <div class="modal-content-text">
+            <div class="modal-content-title">
+              ❗️ 높은 정확성을 원한다면 아래 사항을 참고해서 그려주세요!
+            </div>
+            <p class="modal-content-body">
+              집을 그렸을 때, 모델이 탐지하는 속성:<br />
+              • 집의 종류와 모양<br />
+              • 지붕의 크기와 유무<br />
+              • 문의 크기 및 위치와 유무<br />
+              • 창문의 크기와 유무 및 개수<br />
             </p>
 
+            <br />
+            <p class="guide-text">
+              *그림은 테두리 선의 형태가 정확성이 높습니다<br />
+            </p>
+          </div>
         </div>
         <div @click="hideDrawingGuide" class="modal-btn-guide">
           <button class="modal-btn">확인</button>
@@ -183,10 +193,30 @@ export default {
       data: "",
       showPaint: true,
       showLoading: false,
-      doneLoading: false,
+      doneLoading: true,
       showGuide: false,
       mode: null,
-      newData: "",
+      newData: {
+        name: "geon",
+        tree_image: "1",
+        house_image: "2",
+        tree_result: {
+          "나무 유형": { value: "aaa" },
+          "나무 뿌리": { value: "bbb" },
+          "나무 가지": { value: "ccc" },
+          나뭇잎: { value: "ddd" },
+          "나무 줄기": { value: "eee" },
+          "나무 크기": { value: "fff" },
+        },
+        house_result: {
+          "집 유형": { "home이 많음": "1111", "home이 적음": null },
+          "집 지붕": { "문이 많음": null, "문이 적음": "ccc" },
+          "집 문": { "문이 많음": null, "문이 적음": "ccc" },
+          "집 창문": { "문이 많음": null, "문이 적음": "ccc" },
+        },
+        character: 8,
+        graph: [0.9, 0.9, 0.9, 0.9, 0.9],
+      },
     };
   },
   methods: {
@@ -699,10 +729,11 @@ html {
   top: 0;
   right: 0;
   transform: scale(0.7);
+  width: 40px;
 }
 .exit-btn {
-  width:10px;
-  height:10px;
+  width: 10px;
+  height: 10px;
   position: absolute;
   top: 8px;
   right: 8px;
@@ -717,9 +748,9 @@ html {
   color: #000;
   font-family: korFont2;
   top: 15%;
-  padding-left:10px;
-  padding-top:10px;
-  padding-right:10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -730,14 +761,27 @@ html {
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
-.guide-text{
-  font-size:90%;
+.modal-content-text {
+  font-family: korFont2;
+  padding: 30px 20px 30px 20px;
+}
+.modal-content-title {
+  font-size: 16px;
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+.modal-content-body {
+  font-size: 14px;
+}
+.guide-text {
+  font-size: 12px;
+  color: #858585;
 }
 .modal-btn-guide {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  -webkit-tap-highlight-color : transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 .modal-container {
   display: inline-block;

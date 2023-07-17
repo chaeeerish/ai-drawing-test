@@ -51,7 +51,7 @@ export default {
 }
 .title-text {
   font-family: korFont1;
-  font-size: 40px;
+  font-size: 50px;
 }
 .title-subtext {
   font-family: korFont3;
@@ -60,7 +60,7 @@ export default {
 }
 .icon1 {
   margin-top: 50px;
-  width: 60px;
+  width: 80px;
 }
 .qrcode-div {
   display: flex;
@@ -74,7 +74,7 @@ export default {
   width: 80px;
 }
 .qrcode-text {
-  font-size: 13px;
+  font-size: 15px;
   font-family: korFont2;
   line-height: 1.5;
 }

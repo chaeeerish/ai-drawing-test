@@ -33,7 +33,11 @@
             gap: 5px;
           "
         >
-          <a target="_blank" href="https://www.instagram.com/ai.drawingtest/" id="instagram-link">
+          <a
+            target="_blank"
+            href="https://www.instagram.com/ai.drawingtest/"
+            id="instagram-link"
+          >
             <img
               class="socialmedia-icons"
               src="../../assets/images/instagram.png"
@@ -160,8 +164,6 @@
       <AdsenseComponent></AdsenseComponent>
     </div>
 
-
-
     <div class="footer">
       <img style="width: 60px" src="../../assets/images/icon5.png" />
       <p>광고 및 후원 문의</p>
@@ -261,16 +263,28 @@ export default {
     };
   },
   methods: {
-    trackInstagramLink() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Instagram Link',
+    trackInstagramLink() {
+      this.$gtag.event("click", {
+        event_category: "Social Media",
+        event_label: "Instagram Link",
       });
     },
-    trackKakaoLink() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Kakao Link',
+    trackKakaoLink() {
+      this.$gtag.event("click", {
+        event_category: "Social Media",
+        event_label: "Kakao Link",
       });
     },
-    trackCopyUrlButtonClick() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Copy Button',
+    trackCopyUrlButtonClick() {
+      this.$gtag.event("click", {
+        event_category: "Social Media",
+        event_label: "Copy Button",
       });
     },
-    trackDownloadButtonClick() {this.$gtag.event('click', {event_category: 'Social Media', event_label: 'Download Button',
+    trackDownloadButtonClick() {
+      this.$gtag.event("click", {
+        event_category: "Social Media",
+        event_label: "Download Button",
       });
     },
     captureScreen() {
@@ -425,7 +439,7 @@ export default {
                     data-ad-width="320"
                     data-ad-height="50"></ins>`;
 
-    const adElement1 = document.createElement('div');
+    const adElement1 = document.createElement("div");
     adElement1.innerHTML = adCode1;
 
     this.$refs.adContainer1.appendChild(adElement1);
@@ -435,11 +449,10 @@ export default {
                     data-ad-width = "320"
                     data-ad-height = "100"></ins>`;
 
-    const adElement2 = document.createElement('div');
+    const adElement2 = document.createElement("div");
     adElement2.innerHTML = adCode2;
 
     this.$refs.adContainer2.appendChild(adElement2);
-
 
     const script = document.createElement("script");
     script.src = "//t1.daumcdn.net/kas/static/ba.min.js";
@@ -448,12 +461,10 @@ export default {
     // 카카오 광고
 
     // 인스타그램 링크 클릭 수 // gtag 추적
-    const instagramLink = document.getElementById('instagram-link');
+    const instagramLink = document.getElementById("instagram-link");
     if (instagramLink) {
-      instagramLink.addEventListener('click', this.trackInstagramLink);
+      instagramLink.addEventListener("click", this.trackInstagramLink);
     }
-
-
 
     console.log("Component mounted.");
     const ctx = document.getElementById("myChart");
@@ -592,14 +603,14 @@ export default {
     background-color: #fff;
   }
   .userName {
-    font-size: 21px;
+    font-size: 18px;
     font-family: korFont3;
     color: #424242;
     margin-top: 20px;
   }
   .character-desc {
     font-family: korFont2;
-    font-size: 12.5px;
+    font-size: 11px;
     width: 300px;
     text-align: left;
     margin-bottom: 20px;
@@ -688,11 +699,11 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 110px;
+    width: 125px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 30px;
+    padding-top: 20px;
     padding-bottom: 30px;
   }
   #myChart {
@@ -780,13 +791,13 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  .graph-text{
+  .graph-text {
     padding-top: 30px;
     padding-bottom: 15px;
     font-family: korFont2;
     font-weight: 600;
   }
-  .chart-wrapper{
+  .chart-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -849,17 +860,17 @@ export default {
     background-color: #fff;
   }
   .userName {
-    font-size: 30px;
+    font-size: 25px;
     font-family: korFont3;
     color: #424242;
     margin-top: 20px;
   }
   .character-desc {
     font-family: korFont2;
-    font-size: 23px;
+    font-size: 20px;
     width: 550px;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     line-height: 1.6;
   }
   .first-result {
@@ -948,7 +959,7 @@ export default {
     width: 30px;
   }
   .characterImage {
-    width: 310px;
+    width: 280px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -1040,7 +1051,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  .graph-text{
+  .graph-text {
     padding-top: 30px;
     padding-bottom: 15px;
     font-family: korFont2;

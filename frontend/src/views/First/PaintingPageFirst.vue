@@ -2,7 +2,11 @@
   <transition name="first">
     <div class="painting-page">
       <p class="sub-text-paint">※ 나무를 그려주세요!</p>
-      <img class="drawingGuide" @click="showDrawingGuide" src="../../assets/images/drawingGuide.png"/>
+      <img
+        class="drawingGuide"
+        @click="showDrawingGuide"
+        src="../../assets/images/drawingGuide.png"
+      />
       <div class="painting-content">
         <div id="canvas_Wrapper">
           <canvas ref="jsCanvas" id="jsCanvas" class="canvas"></canvas>
@@ -126,25 +130,31 @@
     <div v-show="showGuide" class="overlay">
       <div v-show="showGuide" class="modal-guide-container">
         <div class="modal-content">
-          <img class="exit-btn" @click="hideDrawingGuide" src="../../assets/images/exitButton.png"/>
-          <p>
-            높은 정확성을 원한다면? <br>
-            아래를 참조해서 그려주세요! <br>
-            나무를 그렸을 때, 모델이 탐지하는 속성<br>
-             • 나무의 종류와 모양<br>
-             • 나무의 크기<br>
-             • 나무 그림의 위치<br>
-             • 나무 줄기(나이테와 옹이,나무 껍질 등)<br>
-             • 나무의 잎과 꽃,열매의 유무<br>
-             • 나뭇가지의 모양<br>
-             • 나무 뿌리의 형태<br>
-            </p>
-            <br>
-            <p class="guide-text">
-            그림은 테두리 선의 형태가 정확성이 높습니다<br>
-            색칠은 빼곡하게 채워넣어야 정확성이 높습니다<br>
+          <img
+            class="exit-btn"
+            @click="hideDrawingGuide"
+            src="../../assets/images/exitButton.png"
+          />
+          <div class="modal-content-text">
+            <div class="modal-content-title">
+              ❗️ 높은 정확성을 원한다면 아래 사항을 참고해서 그려주세요!
+            </div>
+            <p class="modal-content-body">
+              나무를 그렸을 때, 모델이 탐지하는 속성:<br />
+              • 나무의 종류와 모양<br />
+              • 나무의 크기<br />
+              • 나무 그림의 위치<br />
+              • 나무 줄기(나이테와 옹이,나무 껍질 등)<br />
+              • 나무의 잎과 꽃,열매의 유무<br />
+              • 나뭇가지의 모양<br />
+              • 나무 뿌리의 형태<br />
             </p>
 
+            <br />
+            <p class="guide-text">
+              *그림은 테두리 선의 형태가 정확성이 높습니다<br />
+            </p>
+          </div>
         </div>
         <div @click="hideDrawingGuide" class="modal-btn-guide">
           <button class="modal-btn">확인</button>
@@ -207,13 +217,20 @@ export default {
         image: canvasContents,
         id: cookie_userid,
       });
-      fetch("http://"+process.env.VUE_APP_IP_ADDRESS + ":"+process.env.VUE_APP_FLASK_PORT + "/tree", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: file,
-      })
+      fetch(
+        "http://" +
+          process.env.VUE_APP_IP_ADDRESS +
+          ":" +
+          process.env.VUE_APP_FLASK_PORT +
+          "/tree",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: file,
+        }
+      )
         .then((response) => response.json())
         .then((data) => console.log(data));
 
@@ -639,7 +656,7 @@ html {
   outline: inherit;
   height: 45px;
   margin-top: 10px;
-  -webkit-tap-highlight-color : transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 .reset-btn {
   border: none;
@@ -657,10 +674,11 @@ html {
   top: 0;
   right: 0;
   transform: scale(0.7);
+  width: 40px;
 }
 .exit-btn {
-  width:10px;
-  height:10px;
+  width: 10px;
+  height: 10px;
   position: absolute;
   top: 8px;
   right: 8px;
@@ -682,9 +700,9 @@ html {
   color: #000;
   font-family: korFont2;
   top: 15%;
-  padding-left:10px;
-  padding-top:10px;
-  padding-right:10px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-right: 10px;
   left: 0;
   right: 0;
   margin-left: auto;
@@ -695,8 +713,21 @@ html {
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
 }
-.guide-text{
-  font-size:90%;
+.modal-content-text {
+  font-family: korFont2;
+  padding: 30px 20px 30px 20px;
+}
+.modal-content-title {
+  font-size: 16px;
+  padding-bottom: 20px;
+  font-weight: bold;
+}
+.modal-content-body {
+  font-size: 14px;
+}
+.guide-text {
+  font-size: 12px;
+  color: #858585;
 }
 .modal-container {
   display: inline-block;
@@ -734,7 +765,7 @@ html {
   display: flex;
   justify-content: center;
   overflow: hidden;
-  -webkit-tap-highlight-color : transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 .modal-btn {
   border-radius: 0 0 10px 0;
