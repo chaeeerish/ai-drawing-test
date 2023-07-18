@@ -81,7 +81,7 @@ export default {
     }, 7000);
     setTimeout(() => {
       timedTrigger.value.Trigger5 = true;
-    }, 1000);
+    }, 8000);
     return { timedTrigger };
   },
   created() {
