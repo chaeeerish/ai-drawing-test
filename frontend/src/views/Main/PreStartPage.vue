@@ -26,7 +26,7 @@
     <div class="prestart-img-box">
       <img class="prestart-image" src="../../assets/images/heart.png" />
     </div>
-    <button type="submit" @click.once="onClickNext" class="next-btn">NEXT</button>
+    <button type="submit" @click="onClickNext" class="next-btn">NEXT</button>
   </div>
 </template>
 
@@ -36,12 +36,16 @@ export default {
   props: ["isPlaying"],
   methods: {
     onClickNext() {
+      // 한글,영어,숫자만 이용하도록 검증하는 정규표현식
+      const nameRegex = /^[a-zA-Z0-9\u3131-\uD79D\uAC00-\uD7A3]*$/;
+
       let name = this.name;
       if (name.length > 50) {
         alert("이름을 50자 이하로 입력해주세요");
       } else {
         if (name.length > 0) {
-          if (this.isPlaying === true) {
+          if (nameRegex.test(name)){
+            if (this.isPlaying === true) {
             this.player.play();
             console.log(name);
             this.$emit("ToFirstScene");
@@ -62,6 +66,10 @@ export default {
                 console.log(data);
                 this.$cookies.set("userid", data.id);
               });
+          }
+          else{
+            alert("공백을 제외한 한글, 영어, 숫자로 입력하세요");
+          }
         } else {
           alert("이름을 입력해주세요");
         }
