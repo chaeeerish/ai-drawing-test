@@ -28,7 +28,7 @@
 
 **DEEP LEARNING**
 
-<img src="https://img.shields.io/badge/flask-000000?style=for-the-badge&logo=flask&logoColor=white"> <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white">
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/flask-000000?style=for-the-badge&logo=flask&logoColor=white"> <img src="https://img.shields.io/badge/tensorflow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white">
 
 **RELEASE** 
 
@@ -43,8 +43,9 @@
 ## 4. Advanced Feature
 **< MODEL >**
 
-        - 제작한 데이터
-        - n장의 데이터 라벨링
+        - 직접 그리고 라벨링한 937장의 그림 데이터
+        - 문제에 맞는 single-label classification, multi-label classification 적용으로 모델 수 감소, 효율 증대
+        - pre-trained efficientNet, pre-trained Xception 사용
         
 **< SERVER >**
 
